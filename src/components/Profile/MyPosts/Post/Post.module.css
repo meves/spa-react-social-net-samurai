@@ -1,0 +1,7 @@
+.post {    
+    background-color: rgb(206, 63, 63);
+}
+
+.post > img {
+    border-radius: 1em;
+}

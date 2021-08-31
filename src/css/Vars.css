@@ -1,0 +1,6 @@
+html {
+    --main-color: hsl(250, 50%, 75%);
+    --shadow-color: hsl(250, 50%, 65%);
+    --hover-color: hsla(250, 68%, 58%, 0.74);
+    --shadow-hover-color: hsl(250, 27%, 64%);
+}

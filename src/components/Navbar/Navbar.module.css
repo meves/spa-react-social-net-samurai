@@ -1,0 +1,31 @@
+.nav {
+    grid-area: nav; 
+    background-color: var(--main-color);
+    padding: 3em 0.8em 3em 0.4em;
+}
+
+.item {
+    text-align: left;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    font-weight: 500;
+    box-shadow: 0.15em 0.15em 0.1em 0.1em var(--shadow-color);
+}
+.item:hover {
+    cursor: pointer;
+    background-color: var(--hover-color);
+    box-shadow: 0.1em 0.1em 0.05em 0.05em var(--shadow-color);
+}
+.item a {
+    display: block;
+    padding: 0.8em 1em;    
+    color: white;
+    text-decoration: none;
+}
+.item a.active {
+    color: gold;
+}
+
+.item:not(:first-child) {
+    margin-top: 2.5em;
+}
