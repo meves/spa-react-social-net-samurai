@@ -1,4 +1,31 @@
 .dialogs {
-    
+    display: grid;
+    grid-template-columns: 2fr 10fr;
     background-color: var(--main-color);
+}
+
+.dialogsItems {
+    padding: 1em;
+    margin-top: 0;
+    list-style-type: none;
+}
+
+.dialog > a {
+    display: block;
+    text-decoration: none;
+    color: black;
+}
+.dialog a.active {
+    color: gold;
+}
+
+.messages {
+    padding: 1em;
+}
+
+.message {
+    color: inherit;
+}
+.message.active {
+    color: gold;
 }

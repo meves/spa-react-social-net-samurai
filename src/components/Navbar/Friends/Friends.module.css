@@ -1,0 +1,24 @@
+.friendsWrapper {
+    margin-top: 3em;
+    text-align: left;
+}
+
+.avatarsWrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.avatarItem {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.avatarItem > img {
+    width: 2.5em;
+    border-radius: 100%;
+}
+
+.avatarItem > p {
+    font-size: 0.8rem;
+}

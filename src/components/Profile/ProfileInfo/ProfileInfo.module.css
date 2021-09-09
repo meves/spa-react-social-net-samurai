@@ -1,0 +1,8 @@
+.image > img {
+    height: 10em;
+    width: 100%;    
+}
+
+.descriptionBlock {
+    padding: 1em;
+}

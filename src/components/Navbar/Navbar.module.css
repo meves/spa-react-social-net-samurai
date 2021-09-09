@@ -1,7 +1,16 @@
-.nav {
-    grid-area: nav; 
+.navWrapper {
+    grid-area: nav;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
     background-color: var(--main-color);
     padding: 3em 0.8em 3em 0.4em;
+}
+
+.nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }
 
 .item {

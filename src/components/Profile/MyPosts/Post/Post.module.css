@@ -1,7 +1,12 @@
 .post {    
-    background-color: rgb(206, 63, 63);
+    background-color: var(--main-color);
+}
+
+.post:not(:first-child) {
+    margin-top: 1em;
 }
 
 .post > img {
-    border-radius: 1em;
+    width: 3em;
+    border-radius: 100%;
 }

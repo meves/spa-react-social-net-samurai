@@ -1,9 +1,3 @@
 .content {
-    
     background-color: var(--main-color);
-}
-
-.image > img {
-    height: 10em;
-    width: 100%;    
 }

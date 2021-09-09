@@ -1,3 +1,16 @@
+.postsBlock {
+    padding: 1em;
+}
+
+.postsBlock > h3 {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.postsBlock button {
+    padding: 0.3em 0.6em;
+}
+
 .posts {
-    background-color: #fff;
+    margin-top: 1em;
 }

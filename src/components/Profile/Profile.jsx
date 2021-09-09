@@ -1,16 +1,14 @@
 import s from './Profile.module.css';
 import MyPosts from './MyPosts/MyPosts';
+import ProfileInfo from './ProfileInfo/ProfileInfo';
 
 const Profile = (props) => {
     return (
         <div className={s.content}>
-            <div className={s.image}>
-                {<img src="https://drupal8-prod.visitcalifornia.com/sites/drupal8-prod.visitcalifornia.com/files/styles/fluid_1200/public/2020-06/VC_Experiences_ReopeningBeaches_RF_1156532604_1280x640.jpg?itok=tPCjquVe" alt="Beach" />}
-            </div>
-            <div>
-                Avatar + description
-            </div>
-            <MyPosts />
+            <ProfileInfo />
+            <MyPosts posts={props.profilePage.posts} 
+                     newPostText={props.profilePage.newPostText}
+                     dispatch={props.dispatch} />
         </div>
     );
 };
