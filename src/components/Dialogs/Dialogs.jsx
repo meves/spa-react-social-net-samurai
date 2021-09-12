@@ -4,8 +4,8 @@ import Message from './Message/Message';
 import React from 'react';
 
 const Dialogs = (props) => {
-    const dialogElements = props.dialogs.map(d => <DialogItem id={d.id} name={d.name} /> );
-    const messageElements = props.messages.map(m => <Message message={m.message}/>);
+    const dialogElements = props.dialogs.map(d => <DialogItem key={d.id} name={d.name} /> );
+    const messageElements = props.messages.map(m => <Message message={m.message} key={m.id}/>);
     const newPost = React.createRef();
     
     const onChangeHandler = () => {

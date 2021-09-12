@@ -23,19 +23,22 @@ let initialState = {
 
 const dialogReducer = (state=initialState, action) => {
     switch (action.type) {
-        case ADD_TEXT_VALUE: 
-            state.textValue = action.text;
-            return state;
-        case ADD_TEXT_POST:
-            const lastIndex = state.messages.length - 1;
-            const id = state.messages[lastIndex].id + 1;
-            const newMessage = {
-                id : id,
-                message: state.textValue
+        case ADD_TEXT_VALUE: {
+            return {
+                ...state,
+                textValue: action.text
             };
-            state.messages.push(newMessage);
-            state.textValue = '';
-            return state;
+        }
+        case ADD_TEXT_POST: {
+            const lastIndex = state.messages.length - 1;
+            const id = state.messages[lastIndex].id + 1;  
+            const message = state.textValue;          
+            return {
+                ...state,
+                textValue: '',
+                messages: [...state.messages, {id, message}]    
+            };
+        }
         default: 
             return state;
     }    
