@@ -1,0 +1,19 @@
+.users {
+    color: #000;
+}
+
+.user {
+    display: flex;
+}
+
+.avatar {
+    color: #000;
+}
+
+.userPhoto {
+    width: 5em;
+}
+
+.userInfo {
+    display: flex;
+}

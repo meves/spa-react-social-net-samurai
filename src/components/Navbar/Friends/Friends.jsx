@@ -1,3 +1,4 @@
+import React from 'react';
 import s from './Friends.module.css';
 import AvatarItem from './AvatarItem/AvatarItem';
 

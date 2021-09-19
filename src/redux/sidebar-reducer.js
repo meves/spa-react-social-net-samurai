@@ -1,10 +1,11 @@
-let initialState = {
+const initialState = {
     menuItems: [
         { id: 1, itemName: "Profile", to: "/profile" },
         { id: 2, itemName: "Messages", to: "/dialogs" },
         { id: 3, itemName: "News", to: "/news" },
         { id: 4, itemName: "Music", to: "/music" },
-        { id: 5, itemName: "Settings", to: "/settings" }
+        { id: 5, itemName: "Settings", to: "/settings" },
+        { id: 6, itemName: 'Users', to: '/users'}
     ],
     names: [
         { id: 1, name: "Andrew" },

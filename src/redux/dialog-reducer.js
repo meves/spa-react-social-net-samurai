@@ -1,7 +1,7 @@
 const ADD_TEXT_VALUE = 'ADD-TEXT-VALUE';
 const ADD_TEXT_POST = 'ADD-TEXT-POST';
 
-let initialState = {
+const initialState = {
     dialogs: [
         { id: 1, name: "Sergey" },
         { id: 2, name: "Andrey" },

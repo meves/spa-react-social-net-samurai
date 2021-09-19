@@ -1,3 +1,4 @@
+import React from 'react';
 import s from './Navbar.module.css';
 import Friends from './Friends/Friends';
 import Navigation from './Navigation/Navigation';
