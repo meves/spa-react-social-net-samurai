@@ -17,3 +17,12 @@
 .userInfo {
     display: flex;
 }
+
+.selectedPage {
+    font-weight: bold;
+}
+
+.pageNumbers {
+    width: 35em;
+    overflow-x: scroll;
+}

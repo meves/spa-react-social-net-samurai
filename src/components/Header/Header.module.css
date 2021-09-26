@@ -3,7 +3,7 @@
     background-color: var(--main-color);
     padding: 0.5em 1em;
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
 }
 
 .header > img {
@@ -16,4 +16,18 @@
     font-size: 1.5rem;
     margin-left: 3em;
     font-weight: 700;
+}
+
+.loginBlock {
+    float: right;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.loginBlock a {
+    flex: 1;
+    margin-right: 1em;
+    font-size: 1rem;
+    color: #fff;
+    text-decoration: none;
 }

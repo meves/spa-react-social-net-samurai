@@ -44,11 +44,11 @@ const dialogReducer = (state=initialState, action) => {
     }    
 };
 
-export const addTextValueActionCreator = (text) => ({ 
+export const changeHandler = (text) => ({ 
     type: ADD_TEXT_VALUE, text: text 
 });
 
-export const addTextPostActionCreator = () => ({
+export const addPost = () => ({
     type: ADD_TEXT_POST
 });
 

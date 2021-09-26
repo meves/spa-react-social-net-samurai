@@ -2,10 +2,19 @@
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
 const SET_USERS = 'SET_USERS';
+const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
+const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT';
+const TOGGLE_PRELOADER = 'TOGGLE_PRELOADER';
+const TOGGLE_IS_FOLLOWING_PROGRESS = 'TOGGLE_IS_FOLLOWING_PROGRESS';
 
 // initial-state
 const initialState = {
-    users: []   
+    users: [],
+    pageSize: 5,   
+    totalUsersCount: 0,
+    currentPage: 1,
+    isFetching: false,
+    followingProgress: []
 }
 
 // reducer
@@ -40,32 +49,84 @@ const userReducer = (state=initialState, action) => {
         case SET_USERS:
             return {
                 ...state,
-                users: [...state.users, ...action.users]
-            };    
+                users: action.users
+            };  
+        case SET_CURRENT_PAGE:
+            return {
+                ...state,
+                currentPage: action.currentPage
+            }  
+        case SET_TOTAL_USERS_COUNT: 
+            return {
+                ...state,
+                totalUsersCount: action.totalCount
+            }
+        case TOGGLE_PRELOADER:
+            return {
+                ...state,
+                isFetching: action.isFetching
+            };
+        case TOGGLE_IS_FOLLOWING_PROGRESS:
+            return {
+                ...state,
+                followingProgress: action.isFetching ? 
+                                        [...state.followingProgress, action.userId]
+                                        : state.followingProgress.filter(id => id !== action.userId) 
+
+            };
         default: 
             return state;
     }
 }
 
 // action-creators
-export const followAC = (userId) => {
+export const followUser = (userId) => {
     return {
         type: FOLLOW,
         userId
     };
 }
 
-export const unfollowAC = (userId) => {
+export const unfollowUser = (userId) => {
     return {
         type: UNFOLLOW,
         userId
     };
 }
 
-export const setUsersAC = (users) => {
+export const setUsers = (users) => {
     return {
         type: SET_USERS,
         users
+    };
+}
+
+export const setCurrentPage = (currentPage) => {
+    return {
+        type: SET_CURRENT_PAGE,
+        currentPage
+    }
+}
+
+export const setTotalUsersCount = (totalCount) => {
+    return {
+        type: SET_TOTAL_USERS_COUNT,
+        totalCount
+    }
+}
+
+export const setIsFetching = (isFetching) => {
+    return {
+        type: TOGGLE_PRELOADER,
+        isFetching
+    };
+}
+
+export const toggleFollowingProgress = (isFetching, userId) => {
+    return {
+        type: TOGGLE_IS_FOLLOWING_PROGRESS,
+        isFetching,
+        userId
     };
 }
 
