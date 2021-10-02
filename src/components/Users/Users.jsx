@@ -2,7 +2,6 @@ import React from 'react';
 import style from './Users.module.css';
 import userPhoto from '../../assets/images/user_icon.png';
 import { NavLink } from 'react-router-dom';
-import { usersAPI } from '../../api/api';
 
 const Users = (props) => {
     let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize);
@@ -31,25 +30,9 @@ const Users = (props) => {
                     <div>
                         {user.followed ? 
                             <button disabled={props.followingProgress.some(id => id === user.id)} 
-                                onClick={() => {
-                                    props.toggleFollowingProgress(true, user.id);
-                                    usersAPI.unfollowUser(user.id).then(data => {
-                                        if (data.resultCode === 0) {
-                                            props.unfollowUser(user.id);
-                                        }
-                                        props.toggleFollowingProgress(false, user.id);
-                                    });
-                                }}>Unfollowed</button> : 
+                                onClick={() => {props.unfollow(user.id);}}>Unfollowed</button> : 
                             <button disabled={props.followingProgress.some(id => id === user.id)} 
-                                onClick={() => {
-                                    props.toggleFollowingProgress(true, user.id);
-                                    usersAPI.followUser(user.id).then(data => {
-                                        if (data.resultCode === 0) {
-                                            props.followUser(user.id);
-                                        }                               
-                                        props.toggleFollowingProgress(false, user.id);
-                                    });
-                                }}>Followed</button>} 
+                                onClick={() => { props.follow(user.id);}}>Followed</button>} 
                     </div>
                 </div>
                 <div className={style.userInfo}>

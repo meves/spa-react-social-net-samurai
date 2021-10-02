@@ -1,3 +1,4 @@
+import { usersAPI, authAPI } from '../api/api';
 const SET_AUTH_USER_DATA = 'SET_AUTH_USER_DATA';
 const SET_OWNER_PHOTO = 'SET_OWNER_PHOTO';
 const SHOW_FULL_NAME = 'SHOW_FULL_NAME';
@@ -34,6 +35,7 @@ const authReducer = (state=initialState, action) => {
     }    
 }
 
+// action creators
 export const setAuthUserData = (userId, email, login) => {
     return {
         type: SET_AUTH_USER_DATA,
@@ -53,6 +55,23 @@ export const showFullName = (isFetching) => {
         type: SHOW_FULL_NAME,
         isFetching
     };
+}
+
+// thunk creators
+export const getAuthMe = () => {
+    return (dispatch) => {
+        dispatch(showFullName(true));
+        authAPI.authMe().then(data => {
+                if (data.resultCode === 0) {
+                    let {id, email, login} = data.data;
+                    dispatch(showFullName(false));
+                    dispatch(setAuthUserData(id, email, login));
+                    usersAPI.getUserProfile(id).then(data => 
+                        dispatch(setOwnerPhoto(data.photos.small)));
+                }
+            } 
+        );
+    }
 }
 
 export default authReducer;

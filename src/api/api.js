@@ -13,16 +13,32 @@ export const usersAPI = {
     getUsers (pageSize=10, currentPage=1) {
         return  ax.get(`users?count=${pageSize}&page=${currentPage}`).then(response => response.data);
     },
-    getAuthMe () {
-        return ax.get('auth/me').then(response => response.data);
-    },
     getUserProfile (userId) {
-        return  ax.get(`profile/${userId}`).then(response => response.data);
+        console.warn(`Obsolete method. Use profileAPI.getUserProfile() insteadof`);
+        return  profileAPI.getUserProfile(userId);
     },
     unfollowUser (userId) {
         return ax.delete(`follow/${userId}`).then(response => response.data);
     },
     followUser (userId) {
         return ax.post(`follow/${userId}`).then(response => response.data);
+    }
+};
+
+export const authAPI = {
+    authMe () {
+        return ax.get('auth/me').then(response => response.data);
+    }
+};
+
+export const profileAPI = {
+    getUserProfile (userId) {
+        return  ax.get(`profile/${userId}`).then(response => response.data);
+    },
+    getStatus(userId) {
+        return ax.get(`profile/status/${userId}`).then(response => response.data);
+    },
+    updateStatus(status) {
+        return ax.put(`profile/status`, { status }).then(response => response.data);
     }
 };

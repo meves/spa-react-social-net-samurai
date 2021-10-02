@@ -16,7 +16,7 @@ const Dialogs = (props) => {
     const onAddPost = () => {
         props.addPost();
     }
-
+    
     return (
         <div className={s.dialogs}>
             <ul className={s.dialogsItems}>
