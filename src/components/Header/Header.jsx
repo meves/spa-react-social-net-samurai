@@ -4,6 +4,9 @@ import s from './Header.module.css';
 import Preloader from '../common/Preloader/Preloader';
 
 const Header = (props) => {
+    const logout = () => {
+      props.logoutUser();
+    }
     return (
       <header className={s.header}>
         <img src="https://tinyurl.com/hujmt3dc" alt="FC Krasnodar" />
@@ -11,7 +14,8 @@ const Header = (props) => {
         {props.isFetcing ? 
           <Preloader/> :
           <div className={s.loginBlock}>
-            {props.isAuth ? props.login : <NavLink to="/login/" >Login</NavLink>}
+            {props.isAuth ? <div>{props.login} <button onClick={logout}>Logout</button></div>
+                          : <NavLink to="/login/" >Login</NavLink>}
           </div>   
         }
       </header>

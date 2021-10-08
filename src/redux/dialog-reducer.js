@@ -1,4 +1,3 @@
-const ADD_TEXT_VALUE = 'ADD-TEXT-VALUE';
 const ADD_TEXT_POST = 'ADD-TEXT-POST';
 
 const initialState = {
@@ -17,25 +16,17 @@ const initialState = {
         { id: 4, message: "How are you?" },
         { id: 5, message: "Hi!" },
         { id: 6, message: "How do you do?" }
-    ],
-    textValue: ''
+    ]
 };
 
 const dialogReducer = (state=initialState, action) => {
     switch (action.type) {
-        case ADD_TEXT_VALUE: {
-            return {
-                ...state,
-                textValue: action.text
-            };
-        }
         case ADD_TEXT_POST: {
             const lastIndex = state.messages.length - 1;
             const id = state.messages[lastIndex].id + 1;  
-            const message = state.textValue;          
+            const message = action.newMessage;          
             return {
                 ...state,
-                textValue: '',
                 messages: [...state.messages, {id, message}]    
             };
         }
@@ -44,12 +35,9 @@ const dialogReducer = (state=initialState, action) => {
     }    
 };
 
-export const changeHandler = (text) => ({ 
-    type: ADD_TEXT_VALUE, text: text 
-});
-
-export const addPost = () => ({
-    type: ADD_TEXT_POST
+export const addPost = (newMessage) => ({
+    type: ADD_TEXT_POST,
+    newMessage
 });
 
 export default dialogReducer;

@@ -1,6 +1,6 @@
-import { usersAPI, profileAPI } from "../api/api";
+import { profileAPI } from "../api/api";
+
 const ADD_POST = 'ADD-POST';
-const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const SET_STATUS = 'SET_STATUS';
 
@@ -9,7 +9,6 @@ const initialState = {
         {id: 1, message: "Hi, how are you?", likesCount: 10},
         {id: 2, message: "It's myfirst post", likesCount: 5}
     ],
-    newPostText: 'it-kamasutra.com',
     profile: null,
     status: ''
 };
@@ -17,19 +16,12 @@ const initialState = {
 const profileReducer = (state=initialState, action) => {
     switch (action.type) {
         case ADD_POST: {
-            const message = state.newPostText;
+            const message = action.newPost;
             return {
                 ...state,
-                newPostText: '',
                 posts: [...state.posts, {id: 3, message, likesCount: 0}]
             };                        
-        }
-        case UPDATE_NEW_POST_TEXT: {
-            return {
-                ...state,
-                newPostText: action.newText
-            };
-        }
+        }        
         case SET_USER_PROFILE: 
             return {
                 ...state,
@@ -46,11 +38,8 @@ const profileReducer = (state=initialState, action) => {
 };
 
 // action creators
-export const addPost = () => ({ type: ADD_POST });
-
-export const postChange = (text) => ({
-    type: UPDATE_NEW_POST_TEXT, newText: text
-});
+export const addPost = (newPost) => ({ 
+    type: ADD_POST, newPost });
 
 export const setUserProfile = (profile) => {
     return {
@@ -69,7 +58,7 @@ export const setStatus = (status) => {
 // thunk creators
 export const getUserProfile = (userId) => {
     return (dispatch) => {
-        usersAPI.getUserProfile(userId)
+        profileAPI.getUserProfile(userId)
             .then(data => dispatch(setUserProfile(data)));
     }
 }

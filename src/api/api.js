@@ -13,10 +13,6 @@ export const usersAPI = {
     getUsers (pageSize=10, currentPage=1) {
         return  ax.get(`users?count=${pageSize}&page=${currentPage}`).then(response => response.data);
     },
-    getUserProfile (userId) {
-        console.warn(`Obsolete method. Use profileAPI.getUserProfile() insteadof`);
-        return  profileAPI.getUserProfile(userId);
-    },
     unfollowUser (userId) {
         return ax.delete(`follow/${userId}`).then(response => response.data);
     },
@@ -28,6 +24,12 @@ export const usersAPI = {
 export const authAPI = {
     authMe () {
         return ax.get('auth/me').then(response => response.data);
+    },
+    login(email, password, rememberMe=false) {
+        return ax.post(`auth/login`, {email, password, rememberMe}).then(response => response.data);
+    },
+    logout() {
+        return ax.delete(`auth/login`).then(response => response.data);
     }
 };
 

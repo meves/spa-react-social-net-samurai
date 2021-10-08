@@ -1,4 +1,6 @@
-import { usersAPI, authAPI } from '../api/api';
+import { authAPI } from '../api/api';
+import { stopSubmit } from 'redux-form';
+
 const SET_AUTH_USER_DATA = 'SET_AUTH_USER_DATA';
 const SET_OWNER_PHOTO = 'SET_OWNER_PHOTO';
 const SHOW_FULL_NAME = 'SHOW_FULL_NAME';
@@ -8,8 +10,9 @@ const initialState = {
     email: null,
     login: null,
     isAuth: false,
+
     photo: null,
-    isFetching: true        
+    isFetching: false        
 };
 
 const authReducer = (state=initialState, action) => {
@@ -17,8 +20,7 @@ const authReducer = (state=initialState, action) => {
         case SET_AUTH_USER_DATA:
             return {
                 ...state,
-                ...action.data,
-                isAuth: true
+                ...action.payload
             };
         case SET_OWNER_PHOTO:
             return {
@@ -36,10 +38,10 @@ const authReducer = (state=initialState, action) => {
 }
 
 // action creators
-export const setAuthUserData = (userId, email, login) => {
+export const setAuthUserData = (userId, email, login, isAuth) => {
     return {
         type: SET_AUTH_USER_DATA,
-        data: { userId, email, login }
+        payload: { userId, email, login, isAuth }
     }
 }
 
@@ -60,18 +62,37 @@ export const showFullName = (isFetching) => {
 // thunk creators
 export const getAuthMe = () => {
     return (dispatch) => {
-        dispatch(showFullName(true));
-        authAPI.authMe().then(data => {
+         return authAPI.authMe().then(data => {
                 if (data.resultCode === 0) {
                     let {id, email, login} = data.data;
-                    dispatch(showFullName(false));
-                    dispatch(setAuthUserData(id, email, login));
-                    usersAPI.getUserProfile(id).then(data => 
-                        dispatch(setOwnerPhoto(data.photos.small)));
+                    dispatch(setAuthUserData(id, email, login, true));                    
                 }
             } 
         );
     }
+}
+
+export const loginUser = (email, password, rememberMe) => {
+    return (dispatch) => {
+        authAPI.login(email, password, rememberMe).then(data => {
+            if (data.resultCode === 0) {
+                dispatch(getAuthMe());
+            } else {
+                let message = data.messages.length > 0 ? data.messages[0] : 'Login or Password is wrong';
+                dispatch(stopSubmit('login', {_error: message}));
+            }
+        });
+    }
+}
+
+export const logoutUser = () => {
+    return (dispatch) => {
+        authAPI.logout().then(data => {
+            if (data.resultCode === 0) {
+               dispatch(setAuthUserData(null, null, null, false));
+            }
+        });
+    };
 }
 
 export default authReducer;

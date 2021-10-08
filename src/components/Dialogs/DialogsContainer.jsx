@@ -1,6 +1,6 @@
 import React from 'react';
 import Dialogs from "./Dialogs";
-import { addPost, changeHandler } from "../../redux/dialog-reducer";
+import { addPost } from "../../redux/dialog-reducer";
 import { connect } from 'react-redux';
 import { withConnectedAuthRedirect } from '../../hoc/withAuthRedirect';
 import { compose } from 'redux';
@@ -13,8 +13,6 @@ class DialogsContainer extends React.Component {
     }
 }
 
-//const ConnectedAuthRedirectComponent = withConnectedAuthRedirect(DialogsContainer);
-
 const mapStateToProps = (state) => {    
     return {
         dialogs: state.dialogPage.dialogs,
@@ -23,7 +21,4 @@ const mapStateToProps = (state) => {
     };
 }
 
-//export default connect(mapStateToProps, { addPost, changeHandler })(ConnectedAuthRedirectComponent);
-
-export default compose(connect(mapStateToProps, { addPost, changeHandler }), 
-                               withConnectedAuthRedirect)(DialogsContainer);
+export default compose(connect(mapStateToProps, { addPost }), withConnectedAuthRedirect)(DialogsContainer);
