@@ -4,6 +4,8 @@ import Post from './Post/Post';
 import { reduxForm, Field } from 'redux-form';
 import { required, maxLength10 } from '../../../utils/validators/validators';
 import { Textarea } from '../../common/FormsControls/FormsControls';
+import { addPost } from '../../../redux/profile-reducer';
+import { connect } from 'react-redux';
 
 const AddPostForm = (props) => {
     return (
@@ -24,9 +26,9 @@ const MyPosts = (props) => {
         <Post message={p.message} like={p.likesCount} key={p.id}/>);
     
     const onAddPost = (value) => {    
-       props.addPost(value.newPostBody);
+        this.props.addPost(value.newPostBody);
     }
-
+    
     return (
         <div className={s.postsBlock}>
             <h3>My posts</h3>
@@ -35,7 +37,13 @@ const MyPosts = (props) => {
             { postElements }
             </div>
         </div>       
-    );
+    );        
 }
 
-export default MyPosts;
+const mapStateToProps = (state) => {
+    return {
+        posts: state.profilePage.posts
+    };
+}
+
+export default connect(mapStateToProps, { addPost })(MyPosts);
