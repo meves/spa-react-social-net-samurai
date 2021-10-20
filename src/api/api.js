@@ -10,37 +10,46 @@ const ax = axios.create({
 });
 
 export const usersAPI = {
-    getUsers (pageSize=10, currentPage=1) {
-        return  ax.get(`users?count=${pageSize}&page=${currentPage}`).then(response => response.data);
+    async getUsers (pageSize=10, currentPage=1) {
+        const response = await ax.get(`users?count=${pageSize}&page=${currentPage}`);
+        return response.data;
     },
-    unfollowUser (userId) {
-        return ax.delete(`follow/${userId}`).then(response => response.data);
+    async unfollowUser (userId) {
+        const response = await ax.delete(`follow/${userId}`);
+        return response.data;
     },
-    followUser (userId) {
-        return ax.post(`follow/${userId}`).then(response => response.data);
+    async followUser (userId) {
+        const response = await ax.post(`follow/${userId}`);
+        return response.data;
     }
 };
 
 export const authAPI = {
-    authMe () {
-        return ax.get('auth/me').then(response => response.data);
+    async authMe () {
+        const response = await ax.get('auth/me');
+        return response.data;
     },
-    login(email, password, rememberMe=false) {
-        return ax.post(`auth/login`, {email, password, rememberMe}).then(response => response.data);
+    async login(email, password, rememberMe=false) {
+        const response = await ax.post(`auth/login`, {email, password, rememberMe});
+        return response.data;
     },
-    logout() {
-        return ax.delete(`auth/login`).then(response => response.data);
+    async logout() {
+        const response = await ax.delete(`auth/login`);
+        return response.data;
     }
 };
 
 export const profileAPI = {
-    getUserProfile (userId) {
-        return  ax.get(`profile/${userId}`).then(response => response.data);
+    async getUserProfile (userId) {
+        const response = await ax.get(`profile/${userId}`);
+        return response.data;
     },
-    getStatus(userId) {
-        return ax.get(`profile/status/${userId}`).then(response => response.data);
+    async getStatus(userId) {
+        const response = await ax.get(`profile/status/${userId}`);
+        return response.data;
     },
-    updateStatus(status) {
-        return ax.put(`profile/status`, { status }).then(response => response.data);
+    async updateStatus(status) {
+        const response = await ax.put(`profile/status`, { status });
+        return response.data;
     }
 };

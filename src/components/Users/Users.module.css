@@ -17,7 +17,7 @@
 .userInfo {
     display: flex;
 }
-
+/* paginator -> */
 .selectedPage {
     font-weight: bold;
 }
@@ -26,3 +26,4 @@
     width: 35em;
     overflow-x: scroll;
 }
+/* -> paginator */

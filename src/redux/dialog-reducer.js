@@ -1,4 +1,4 @@
-const ADD_TEXT_POST = 'ADD-TEXT-POST';
+const ADD_TEXT_POST = 'my-app/dialog/ADD-TEXT-POST';
 
 const initialState = {
     dialogs: [

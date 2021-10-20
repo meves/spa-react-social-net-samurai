@@ -3,14 +3,14 @@ import React, { useState, useEffect } from 'react';
 
 const ProfileStatus = (props) => {
     
-    const [editMode, setEditMode] = useState(true);
+    const [editMode, setEditMode] = useState(false);
     const [status, setStatus] = useState(props.status);
 
     const activateEditMode = () => {
-        setEditMode(false);
+        setEditMode(true);
     }
     const deactivateEditMode = () => {
-        setEditMode(true);
+        setEditMode(false);
         props.updateStatus(status);
     }
     const onStatusChange = (event) => {
@@ -23,7 +23,7 @@ const ProfileStatus = (props) => {
         
     return (
         <div>
-            { editMode 
+            { !editMode 
                 ? <div>
                     <span onClick={activateEditMode}>{status}</span>
                   </div> 

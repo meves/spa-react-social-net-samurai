@@ -2,7 +2,7 @@
     grid-area: nav;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: flex-start;
     background-color: var(--main-color);
     padding: 3em 0.8em 3em 0.4em;
 }

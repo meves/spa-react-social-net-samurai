@@ -2,7 +2,7 @@ import React from 'react';
 import Preloader from '../../common/Preloader/Preloader';
 import s from './ProfileInfo.module.css';
 import userPhoto from '../../../assets/images/user_icon.png';
-import ProfileStatus from './ProfileStatus';
+import ProfileStatus from './ProfileStatusHook';
 
 const ProfileInfo = (props) => {
     if (!props.profile) {

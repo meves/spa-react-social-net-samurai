@@ -1,8 +1,9 @@
 import { profileAPI } from "../api/api";
 
-const ADD_POST = 'ADD-POST';
-const SET_USER_PROFILE = 'SET_USER_PROFILE';
-const SET_STATUS = 'SET_STATUS';
+const ADD_POST = 'my-app/profile/ADD-POST';
+const SET_USER_PROFILE = 'my-app/profile/SET_USER_PROFILE';
+const SET_STATUS = 'my-app/profile/SET_STATUS';
+const DELETE_POST = 'my-app/profile/DELETE_POST';
 
 const initialState = {
     posts: [
@@ -32,6 +33,11 @@ const profileReducer = (state=initialState, action) => {
                 ...state,
                 status: action.status    
             };
+        case DELETE_POST:
+            return {
+                ...state, 
+                posts: state.posts.filter(post => post.id !== action.postId)
+            };
         default:
             return state;    
     }
@@ -55,30 +61,31 @@ export const setStatus = (status) => {
     };
 }
 
+export const deletePost = (postId) => {
+    return {
+        type: DELETE_POST,
+        postId
+    };
+}
+
 // thunk creators
-export const getUserProfile = (userId) => {
-    return (dispatch) => {
-        profileAPI.getUserProfile(userId)
-            .then(data => dispatch(setUserProfile(data)));
-    }
+export const getUserProfile = (userId) => async (dispatch) => {
+    const data = await profileAPI.getUserProfile(userId)
+    dispatch(setUserProfile(data));
 }
 
-export const getStatus = (userId) => {
-    return (dispatch) => {
-        profileAPI.getStatus(userId).then(status => {
-            dispatch(setStatus(status));
-        });
-    }
+
+export const getStatus = (userId) => async (dispatch) => {
+    const status = await profileAPI.getStatus(userId);
+    dispatch(setStatus(status));        
 }
 
-export const updateStatus = (status) => {
-    return (dispatch) => {
-        profileAPI.updateStatus(status).then(data => {
-            if(data.resultCode === 0) {
-                dispatch(setStatus(status));
-            }
-        });
-    }
+
+export const updateStatus = (status) => async (dispatch) => {
+    const data = await profileAPI.updateStatus(status);
+    if(data.resultCode === 0) {
+        dispatch(setStatus(status));
+    }       
 }
 
 export default profileReducer;

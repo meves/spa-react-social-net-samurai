@@ -26,7 +26,7 @@ const MyPosts = (props) => {
         <Post message={p.message} like={p.likesCount} key={p.id}/>);
     
     const onAddPost = (value) => {    
-        this.props.addPost(value.newPostBody);
+        props.addPost(value.newPostBody);
     }
     
     return (
