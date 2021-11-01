@@ -2,25 +2,3 @@
     height: 10em;
     width: 100%;    
 }
-
-.descriptionBlock {
-    padding: 1em;
-}
-.descriptionBlock > img {
-    width: 10em;
-}
-
-.contacts {
-    display: flex;
-    justify-content: flex-start;
-}
-
-.contacts > a {
-    flex: 1;
-    display: block;
-    text-decoration: none;
-    color: rgb(95, 19, 19);
-    padding: 0.5em;
-    margin-right: 0.1em;
-    background-color: var(--shadow-color);
-}

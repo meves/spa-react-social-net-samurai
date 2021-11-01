@@ -1,6 +1,6 @@
 import React from "react";
 import renderer, { create } from 'react-test-renderer';
-import { updateStatus } from "../../../redux/profile-reducer";
+import { updateStatus } from "../../../../redux/profile-reducer";
 import ProfileStatus from "./ProfileStatusClass";
 
 describe('ProfileStatusClass component', () => {

@@ -51,5 +51,15 @@ export const profileAPI = {
     async updateStatus(status) {
         const response = await ax.put(`profile/status`, { status });
         return response.data;
+    },
+    async putPhoto(photoFile) {
+        const formData = new FormData();
+        formData.append('image', photoFile);
+        const response = await ax.put('profile/photo', formData, { headers: { 'Content-Type': 'multipart/form-data' }});
+        return response.data;
+    },
+    async putProfile(profile) {
+        const response = await ax.put('/profile', {...profile});
+        return response.data;
     }
 };

@@ -1,0 +1,13 @@
+.descriptionBlock {
+    padding: 1em;
+}
+
+.contacts {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.photo {
+    width: 10em;
+    object-fit: cover;
+}
