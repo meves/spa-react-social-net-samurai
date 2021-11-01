@@ -29,8 +29,8 @@ export const authAPI = {
         const response = await ax.get('auth/me');
         return response.data;
     },
-    async login(email, password, rememberMe=false) {
-        const response = await ax.post(`auth/login`, {email, password, rememberMe});
+    async login(email, password, rememberMe=false, captcha) {
+        const response = await ax.post(`auth/login`, {email, password, rememberMe, captcha});
         return response.data;
     },
     async logout() {
@@ -63,3 +63,10 @@ export const profileAPI = {
         return response.data;
     }
 };
+
+export const securityAPI = {
+    async getCaptchaUrl () {
+        const response = await ax.get('security/get-captcha-url');
+        return response.data;
+    }
+}
