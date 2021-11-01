@@ -8,7 +8,7 @@ const User = ({user, ...props}) => {
         <div className={style.user}>
                 <div className={style.avatar}>
                     <div>
-                        <NavLink to={"/profile/"+user.id}>
+                        <NavLink to={`/profile/${user.id}`}>
                             <img className={style.userPhoto} 
                                  src={ user.photos.small != null ? user.photos.small : userPhoto } 
                                  alt="User" />

@@ -3,7 +3,8 @@ import { getAuthMe } from "./auth-reducer";
 const INITIALIZED_SUCCESS = 'my-app/app/INITIALIZED_SUCCESS';
 
 const initialState = {
-    initialized: false
+    initialized: false,
+    globalError: null
 };
 
 export const appReducer = (state=initialState, action) => {
