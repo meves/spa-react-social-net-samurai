@@ -27,10 +27,9 @@ export const initializedSuccess = () => {
 }
 
 // thunk creators
-export const initializeApp = () => (dispatch) => {
+export const initializeApp = () => async dispatch => {
     const promises = [];
     promises.push(dispatch(getAuthMe()));
-    Promise.all(promises).then(() => {
-        dispatch(initializedSuccess());
-    });
+    await Promise.all(promises);
+    dispatch(initializedSuccess());
 }

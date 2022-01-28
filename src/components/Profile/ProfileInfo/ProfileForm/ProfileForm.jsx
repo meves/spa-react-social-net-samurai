@@ -29,7 +29,7 @@ const ProfileForm = (props) => {
                 <legend>Contacts</legend>
                 {Object.keys(contacts).map(key => {
                     return (
-                        <Field key={key} component={Input} type="text" label={key} name={`contacts.${key}`} /* validate={[required]} *//>                                                
+                        <Field key={key} component={Input} type="text" label={key} name={`contacts.${key}`} />                                                
                     )
                 })}
                 

@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import s from './Header.module.css';
 import Preloader from '../common/Preloader/Preloader';
+import Logo from '../../assets/images/logo.jpg';
 
 const Header = (props) => {
     const logout = () => {
@@ -9,7 +10,7 @@ const Header = (props) => {
     }
     return (
       <header className={s.header}>
-        <img src="https://tinyurl.com/hujmt3dc" alt="FC Krasnodar" />
+        <img src={Logo} alt="Logo" />
         <p>New Age Social Net</p>
         {props.isFetcing ? 
           <Preloader/> :

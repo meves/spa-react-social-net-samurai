@@ -35,7 +35,7 @@ const ProfileData = (props) => {
             <div className={styles.contacts}>
                 { Object.entries(props.profile.contacts)
                     .filter(value => value[1] !== null )
-                    .map((value) => {
+                    .map(value => {
                         return <Contact key={value[0]} contactTitle={value[0]} contactLink={value[1]}/>
                     })
                 }
