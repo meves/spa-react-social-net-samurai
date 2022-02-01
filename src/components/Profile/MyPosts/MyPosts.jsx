@@ -6,6 +6,7 @@ import { required, maxLength10 } from '../../../utils/validators/validators';
 import { Textarea } from '../../common/FormsControls/FormsControls';
 import { addPost } from '../../../redux/profile-reducer';
 import { connect } from 'react-redux';
+import { receivePosts } from '../../../redux/selectors/profile-selectors';
 
 const AddPostForm = (props) => {
     return (
@@ -22,7 +23,7 @@ const AddPostForm = (props) => {
 const AddPostReduxForm = reduxForm({ form: 'addNewPostForm'})(AddPostForm);
 
 const MyPosts = (props) => {
-    const postElements = props.posts.map(p => 
+    const postElements = [...props.posts].reverse().map(p => 
         <Post message={p.message} like={p.likesCount} key={p.id}/>);
     
     const onAddPost = (value) => {    
@@ -42,7 +43,7 @@ const MyPosts = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        posts: state.profilePage.posts
+        posts: receivePosts(state)
     };
 }
 

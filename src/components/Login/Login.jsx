@@ -5,6 +5,7 @@ import { loginUser } from '../../redux/auth-reducer';
 import { Input } from '../common/FormsControls/FormsControls';
 import { required, email, minLength10 } from '../../utils/validators/validators';
 import { Redirect } from 'react-router-dom';
+import { receiveIsAuth, receiveCaptchaUrl } from '../../redux/selectors/auth-selectors';
 import style from '../common/FormsControls/FormsControls.module.css';
 
 const LoginForm = (props) => {
@@ -57,8 +58,8 @@ const Login = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        isAuth: state.auth.isAuth,
-        captchaUrl: state.auth.captchaUrl
+        isAuth: receiveIsAuth(state),
+        captchaUrl: receiveCaptchaUrl(state)
     };
 }
 

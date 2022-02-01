@@ -1,10 +1,11 @@
 import { connect } from 'react-redux';
 import Navbar from './Navbar';
+import { receiveMenuItems, receiveNames } from '../../redux/selectors/navbar-selectors';
 
 const mapStateToProps = (state) => {
     return {
-        menuItems: state.sidebar.menuItems,
-        names: state.sidebar.names
+        menuItems: receiveMenuItems(state),
+        names: receiveNames(state)
     }
 }
 

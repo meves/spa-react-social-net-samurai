@@ -40,6 +40,4 @@ const ProfileForm = (props) => {
     );
 }
 
-const ProfileReduxForm = reduxForm({form: 'ProfileForm'})(ProfileForm);
-
-export default ProfileReduxForm;
+export default reduxForm({form: 'ProfileForm'})(ProfileForm);

@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { withConnectedAuthRedirect } from '../../hoc/withAuthRedirect';
 import { compose } from 'redux';
+import { receiveUserId } from '../../redux/selectors/auth-selectors';
+import { receiveProfile, receiveStatus } from '../../redux/selectors/profile-selectors';
 
 class ProfileContainer extends React.Component {
     componentDidMount() {
@@ -20,9 +22,9 @@ class ProfileContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    profile: state.profilePage.profile,
-    status: state.profilePage.status,
-    userId: state.auth.userId   
+    profile: receiveProfile(state),
+    status: receiveStatus(state),
+    userId: receiveUserId(state)   
 });
 
 export default compose(connect(mapStateToProps, { getUserProfile, getStatus, updateStatus, savePhoto, saveUserProfile }),
