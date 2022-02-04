@@ -1,3 +1,5 @@
+import { DialogType, MessageType } from "../types/types";
+
 const ADD_TEXT_POST = 'my-app/dialog/ADD-TEXT-POST';
 
 const initialState = {
@@ -8,7 +10,7 @@ const initialState = {
         { id: 4, name: "Victor" },
         { id: 5, name: "Alexandr" },
         { id: 6, name: "Egeny" }
-    ],
+    ] as Array<DialogType>,
     messages: [
         { id: 1, message: "Hello, friends!" },
         { id: 2, message: "Hi everybody!" },
@@ -16,15 +18,16 @@ const initialState = {
         { id: 4, message: "How are you?" },
         { id: 5, message: "Hi!" },
         { id: 6, message: "How do you do?" }
-    ]
+    ] as Array<MessageType>
 };
 
-const dialogReducer = (state=initialState, action) => {
+export type InitialStateType = typeof initialState;
+
+const dialogReducer  = (state = initialState, action: AddPostActionType): InitialStateType => {
     switch (action.type) {
         case ADD_TEXT_POST: {
-            const lastIndex = state.messages.length - 1;
-            const id = state.messages[lastIndex].id + 1;  
-            const message = action.newMessage;          
+            const id: number = state.messages ? state.messages.length : 0;  
+            const message: string = action.newMessage;          
             return {
                 ...state,
                 messages: [...state.messages, {id, message}]    
@@ -35,7 +38,14 @@ const dialogReducer = (state=initialState, action) => {
     }    
 };
 
-export const addPost = (newMessage) => ({
+// actions
+type AddPostActionType = {
+    type: typeof ADD_TEXT_POST,
+    newMessage: string
+}
+
+// action-creators
+export const addPost = (newMessage: string): AddPostActionType => ({
     type: ADD_TEXT_POST,
     newMessage
 });

@@ -1,3 +1,5 @@
+import { MenuItemType, NameType } from "../types/types";
+
 const initialState = {
     menuItems: [
         { id: 1, itemName: "Profile", to: "/profile" },
@@ -6,15 +8,16 @@ const initialState = {
         { id: 4, itemName: "Music", to: "/music" },
         { id: 5, itemName: "Settings", to: "/settings" },
         { id: 6, itemName: 'Users', to: '/users'}
-    ],
+    ] as Array<MenuItemType>,
     names: [
         { id: 1, name: "Andrew" },
         { id: 2, name: "Sasha" },
         { id: 3, name: "Sveta" }
-    ]
-};
+    ] as Array<NameType>
+}
+type InitialStateType = typeof initialState
 
-const sidebarReducer = (state=initialState, action) => {
+const sidebarReducer = (state=initialState, action: any): InitialStateType => {
     switch (action.type) {
         default:
             return state;

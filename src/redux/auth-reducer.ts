@@ -3,37 +3,25 @@ import { securityAPI } from '../api/api';
 import { stopSubmit } from 'redux-form';
 
 const SET_AUTH_USER_DATA = 'my-app/auth/SET_AUTH_USER_DATA';
-const SET_OWNER_PHOTO = 'my-app/auth/SET_OWNER_PHOTO';
-const SHOW_FULL_NAME = 'my-app/auth/SHOW_FULL_NAME';
 const SET_CAPTCHA_URL = 'my-app/auth/SET_CAPTCHA_URL';
 
 const initialState = {
-    userId: null,
-    email: null,
-    login: null,
+    userId: null as number | null,
+    email: null as string | null,
+    login: null as string | null,
     isAuth: false,
-    photo: null,
-    isFetching: false,
-    captchaUrl: null        
+    captchaUrl: null as string | null        
 };
 
-const authReducer = (state=initialState, action) => {
+export type InitialStateType = typeof initialState;
+
+const authReducer = (state=initialState, action: AuthReducerActionType): InitialStateType => {
     switch (action.type) {
         case SET_AUTH_USER_DATA:
             return {
                 ...state,
-                ...action.payload
+                ...action.payload,
             };
-        case SET_OWNER_PHOTO:
-            return {
-                ...state,
-                photo: action.photo
-            };
-        case SHOW_FULL_NAME:
-            return {
-                ...state,
-                isFetching: action.isFetching
-            }
         case SET_CAPTCHA_URL:
             return {
                 ...state,
@@ -45,36 +33,33 @@ const authReducer = (state=initialState, action) => {
 }
 
 // action creators
-export const setAuthUserData = (userId, email, login, isAuth) => {
-    return {
-        type: SET_AUTH_USER_DATA,
-        payload: { userId, email, login, isAuth }
-    }
-}
+type AuthReducerActionType = SetAuthUserDataActionType | SetCaptchaUrlActionType;
 
-export const setOwnerPhoto = (photo) => {
-    return {
-        type: SET_OWNER_PHOTO,
-        photo
-    };
-}
+type SetAuthUserDataActionPayloadType = { userId:number|null, email:string|null, login:string|null, isAuth:boolean }
 
-export const showFullName = (isFetching) => {
-    return {
-        type: SHOW_FULL_NAME,
-        isFetching
-    };
+type SetAuthUserDataActionType = {
+    type: typeof SET_AUTH_USER_DATA,
+    payload: SetAuthUserDataActionPayloadType
 }
+export const setAuthUserData = (userId:number|null, email:string|null, login:string|null, isAuth:boolean)
+    : SetAuthUserDataActionType => ({
+            type: SET_AUTH_USER_DATA,
+            payload: { userId, email, login, isAuth }
+    })
 
-export const setCaptchaUrl = (captchaUrl) => {
-    return {
-        type: SET_CAPTCHA_URL,
-        captchaUrl
-    };
-}
+
+type SetCaptchaUrlActionType = {
+    type: typeof SET_CAPTCHA_URL,
+    captchaUrl: string
+}    
+export const setCaptchaUrl = (captchaUrl: string)
+    :SetCaptchaUrlActionType => ({
+            type: SET_CAPTCHA_URL,
+            captchaUrl
+    })
 
 // thunk creators
-export const getAuthMe = () => async (dispatch) => {
+export const getAuthMe = () => async (dispatch: any) => {
     const data = await authAPI.authMe();
     if (data.resultCode === 0) {
         let {id, email, login} = data.data;
@@ -82,7 +67,8 @@ export const getAuthMe = () => async (dispatch) => {
     }    
 }
 
-export const loginUser = (email, password, rememberMe, captcha) => async (dispatch) => {
+export const loginUser = (email: string, password: string, rememberMe: boolean, captcha: string) => 
+async (dispatch: any) => {
     const data = await authAPI.login(email, password, rememberMe, captcha);
     if (data.resultCode === 0) {
         dispatch(getAuthMe());
@@ -95,13 +81,13 @@ export const loginUser = (email, password, rememberMe, captcha) => async (dispat
     }       
 }
 
-export const getCaptchaUrl = () => async (dispatch) => {
+export const getCaptchaUrl = () => async (dispatch: any) => {
     const data = await securityAPI.getCaptchaUrl();
     const captchaUrl = data.url;
     dispatch(setCaptchaUrl(captchaUrl));
 }
 
-export const logoutUser = () => async (dispatch) => {
+export const logoutUser = () => async (dispatch: any) => {
     const data = await authAPI.logout();
     if (data.resultCode === 0) {
         dispatch(setAuthUserData(null, null, null, false));
