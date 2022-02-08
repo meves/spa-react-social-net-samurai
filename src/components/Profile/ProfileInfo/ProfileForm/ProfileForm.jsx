@@ -5,7 +5,7 @@ import { required } from '../../../../utils/validators/validators';
 import style from './../../../common/FormsControls/FormsControls.module.css';
 
 const ProfileForm = (props) => {
-    const contacts = props.profile.contacts;
+    //const contacts = props.contacts;
     return (
         <form onSubmit={props.handleSubmit}>
             <fieldset>
@@ -27,11 +27,11 @@ const ProfileForm = (props) => {
             </fieldset>
             <fieldset>
                 <legend>Contacts</legend>
-                {Object.keys(contacts).map(key => {
+                {/* {Object.keys(contacts).map(key => {
                     return (
                         <Field key={key} component={Input} type="text" label={key} name={`contacts.${key}`} />                                                
                     )
-                })}
+                })} */}
                 
             </fieldset>
             {props.error && <div className={style.formSummaryError}>{props.error}</div>}

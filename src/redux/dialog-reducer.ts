@@ -23,7 +23,7 @@ const initialState = {
 
 export type InitialStateType = typeof initialState;
 
-const dialogReducer  = (state = initialState, action: AddPostActionType): InitialStateType => {
+const dialogReducer  = (state = initialState, action: any): InitialStateType => {
     switch (action.type) {
         case ADD_TEXT_POST: {
             const id: number = state.messages ? state.messages.length : 0;  

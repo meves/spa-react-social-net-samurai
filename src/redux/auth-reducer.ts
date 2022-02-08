@@ -15,7 +15,7 @@ const initialState = {
 
 export type InitialStateType = typeof initialState;
 
-const authReducer = (state=initialState, action: AuthReducerActionType): InitialStateType => {
+const authReducer = (state=initialState, action: any): InitialStateType => {
     switch (action.type) {
         case SET_AUTH_USER_DATA:
             return {
@@ -33,8 +33,6 @@ const authReducer = (state=initialState, action: AuthReducerActionType): Initial
 }
 
 // action creators
-type AuthReducerActionType = SetAuthUserDataActionType | SetCaptchaUrlActionType;
-
 type SetAuthUserDataActionPayloadType = { userId:number|null, email:string|null, login:string|null, isAuth:boolean }
 
 type SetAuthUserDataActionType = {
@@ -67,7 +65,7 @@ export const getAuthMe = () => async (dispatch: any) => {
     }    
 }
 
-export const loginUser = (email: string, password: string, rememberMe: boolean, captcha: string) => 
+export const loginUser = (email: string, password: string, rememberMe: boolean, captcha: boolean|undefined) => 
 async (dispatch: any) => {
     const data = await authAPI.login(email, password, rememberMe, captcha);
     if (data.resultCode === 0) {

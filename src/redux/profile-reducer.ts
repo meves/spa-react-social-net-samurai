@@ -18,7 +18,7 @@ const initialState = {
 };
 type InitialStateType = typeof initialState;
 
-const profileReducer = (state=initialState, action: ProfileReducerActionType): InitialStateType => {
+const profileReducer = (state=initialState, action: any): InitialStateType => {
     switch (action.type) {
         case ADD_POST: {
             const message = action.newPost;
@@ -56,9 +56,6 @@ const profileReducer = (state=initialState, action: ProfileReducerActionType): I
 };
 
 // action creators
-type ProfileReducerActionType = AddPostActionType | SetUserProfileActionType 
-        | SetStatusActionType | DeletePostActionType | SetProfilePhotoActionType
-
 type AddPostActionType = {
     type: typeof ADD_POST
     newPost: string

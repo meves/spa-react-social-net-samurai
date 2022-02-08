@@ -21,7 +21,7 @@ const initialState = {
 type InitialStateType = typeof initialState;
 
 // reducer
-const userReducer = (state=initialState, action: userReducerActionType): InitialStateType => {    
+const userReducer = (state=initialState, action: any): InitialStateType => {    
     switch(action.type) {
         case FOLLOW:             
                 return {
@@ -83,9 +83,6 @@ const userReducer = (state=initialState, action: userReducerActionType): Initial
 }
 
 // action-creators
-type userReducerActionType = FollowUserActionType | UnfollowuserActionType | SetUsersActionType | SetCurrentPageActionType
-        | SetTotalUsersCountActionType | SetIsFetchingActionType | ToggleFollowingProgressActionType;
-
 type FollowUserActionType = {
     type: typeof FOLLOW
     userId: number
