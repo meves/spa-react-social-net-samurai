@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { BrowserRouter, Route, withRouter, Switch, Redirect } from 'react-router-dom';
 import { compose } from 'redux';
 import { Provider, connect } from 'react-redux';
-import store from './redux/redux-store';
+import store, { AppStateType } from './redux/redux-store';
 import { initializeApp } from './redux/app-reducer';
 import { withSuspense } from './hoc/withSuspence';
 import './css/App.css';
@@ -10,24 +10,31 @@ import './css/App.css';
 import HeaderContainer from './components/Header/HeaderContainer';
 import NavbarContainer from './components/Navbar/NavbarContainer';
 import Preloader from './components/common/Preloader/Preloader';
-const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));
-const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'));
+const DialogsContainer = React.lazy((): any => import('./components/Dialogs/DialogsContainer'));
+const ProfileContainer = React.lazy((): any => import('./components/Profile/ProfileContainer'));
 const News = React.lazy(() => import('./components/News/News')); 
 const Music = React.lazy(() => import('./components/Music/Music')); 
-const UsersContainer = React.lazy(() => import('./components/Users/UsersContainer')); 
+const UsersContainer = React.lazy((): any => import('./components/Users/UsersContainer')); 
 const Settings = React.lazy(() => import('./components/Settings/Settings')); 
 const Login = React.lazy(() => import('./components/Login/Login'));
 
-class App extends React.Component {
-  catchAllUnhandledErrors = (reason, promise) => {
+type PropsType = {
+  initialized: boolean
+  initializeApp: () => void
+}
+
+class App extends React.Component<PropsType> {
+  catchAllUnhandledErrors = (reason: any, promise: any): any => {
     // set globalError in app-reducer through thunk-creator and action-creator 
     // then show the error in ErrorComponent
   }
   componentDidMount() {
-    this.props.initializeApp();        
+    this.props.initializeApp();
+    // @ts-ignore        
     window.addEventListener('unhandledrejection', this.catchAllUnhandledErrors);
   }
   componentWillUnmount() {
+    // @ts-ignore
     window.removeEventListener('unhandledrejection', this.catchAllUnhandledErrors);
   }
   render() {
@@ -56,13 +63,24 @@ class App extends React.Component {
   }
 }
 
-const mapStateToprops = (state) => ({
+type MapStatePropsType = {
+  initialized: boolean
+}
+
+type MapDispatchPropsType = {
+  initializeApp: () => void
+}
+
+const mapStateToprops = (state: AppStateType): MapStatePropsType => ({
   initialized: state.app.initialized
 });
 
-const AppContainer = compose(withRouter, connect(mapStateToprops, { initializeApp }))(App);
+const AppContainer: any = compose(
+  withRouter,
+  connect<MapStatePropsType, MapDispatchPropsType, {}, AppStateType>(mapStateToprops, { initializeApp })
+    )(App);
 
-const AppMain = (props) => {
+const AppMain: FC = (props): JSX.Element => {
   return (
     <BrowserRouter>
         <Provider store={store}>

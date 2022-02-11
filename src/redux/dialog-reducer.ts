@@ -23,7 +23,7 @@ const initialState = {
 
 export type InitialStateType = typeof initialState;
 
-const dialogReducer  = (state = initialState, action: any): InitialStateType => {
+const dialogReducer  = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
         case ADD_TEXT_POST: {
             const id: number = state.messages ? state.messages.length : 0;  
@@ -37,6 +37,8 @@ const dialogReducer  = (state = initialState, action: any): InitialStateType => 
             return state;
     }    
 };
+
+type ActionsTypes = AddPostActionType;
 
 // actions
 type AddPostActionType = {
