@@ -3,6 +3,8 @@ import { securityAPI } from '../api/api';
 import { FormAction, stopSubmit } from 'redux-form';
 import { AppStateType } from './redux-store';
 import { ThunkAction } from 'redux-thunk';
+import { ResultCode, ResultCodeForCaptcha } from '../enums/resultCodes';
+import { ResponseDataAuthMeType, ResponseDataAuthLoginType, ResponseDataEmptyType, ResponseDataGetCaptchaUrl } from '../types/apiTypes';
 
 const SET_AUTH_USER_DATA = 'my-app/auth/SET_AUTH_USER_DATA';
 const SET_CAPTCHA_URL = 'my-app/auth/SET_CAPTCHA_URL';
@@ -68,8 +70,8 @@ type GetAuthmeThunkType = ThunkAction<Promise<void | SetAuthUserDataActionType>,
 
 export const getAuthMe = (): GetAuthmeThunkType => 
     async (dispatch) => {
-        const data = await authAPI.authMe();
-        if (data.resultCode === 0) {
+        const data: ResponseDataAuthMeType = await authAPI.authMe();
+        if (data.resultCode === ResultCode.Success) {
             let {id, email, login} = data.data;
             return dispatch(setAuthUserData(id, email, login, true));                    
         }    
@@ -79,14 +81,14 @@ type LoginUserThunkType = ThunkAction<Promise<void>, AppStateType, unknown, Acti
 
 export const loginUser = (email: string, password: string, rememberMe: boolean, captcha: boolean|undefined): LoginUserThunkType => 
     async (dispatch) => {
-        const data = await authAPI.login(email, password, rememberMe, captcha);
-        if (data.resultCode === 0) {
+        const data: ResponseDataAuthLoginType = await authAPI.login(email, password, rememberMe, captcha);
+        if (data.resultCode === ResultCode.Success) {
             dispatch(getAuthMe());
         } else {
-            if (data.resultCode === 10) {
+            if (data.resultCode === ResultCodeForCaptcha.CaptchaIsRequired) {
                 dispatch(getCaptchaUrl());
             }
-            let message = data.messages.length > 0 ? data.messages[0] : 'Login or Password is wrong';
+            let message: string = data.messages.length > 0 ? data.messages[0] : 'Login or Password is wrong';
             dispatch(stopSubmit('login', {_error: message}));
         }       
     }
@@ -95,14 +97,14 @@ type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
 
 export const getCaptchaUrl = (): ThunkType => 
     async (dispatch) => {
-        const data = await securityAPI.getCaptchaUrl();
+        const data: ResponseDataGetCaptchaUrl = await securityAPI.getCaptchaUrl();
         const captchaUrl = data.url;
         dispatch(setCaptchaUrl(captchaUrl));
     }
 
 export const logoutUser = (): ThunkType => 
     async (dispatch) => {
-        const data = await authAPI.logout();
+        const data: ResponseDataEmptyType = await authAPI.logout();
         if (data.resultCode === 0) {
             dispatch(setAuthUserData(null, null, null, false));
         }        

@@ -1,6 +1,7 @@
 import { FormAction, stopSubmit } from "redux-form";
 import { ThunkAction } from "redux-thunk";
 import { profileAPI } from "../api/api";
+import { ResponseDataEmptyType } from "../types/apiTypes";
 import { PostType, PhotosType, ProfileType } from "../types/types";
 import { AppStateType } from "./redux-store";
 
@@ -113,7 +114,7 @@ export const setProfilePhoto = (photos: PhotosType): SetProfilePhotoActionType =
 // thunk creators
 type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>;
 
-export const getUserProfile = (userId: number|null): ThunkType => 
+export const getUserProfile = (userId: number): ThunkType => 
     async (dispatch) => {
         const data = await profileAPI.getUserProfile(userId)
         dispatch(setUserProfile(data));
@@ -122,14 +123,14 @@ export const getUserProfile = (userId: number|null): ThunkType =>
 
 export const getStatus = (userId: number): ThunkType => 
     async (dispatch) => {
-        const status = await profileAPI.getStatus(userId);
+        const status: string = await profileAPI.getStatus(userId);
         dispatch(setStatus(status));        
     }
 
 
 export const updateStatus = (status: string): ThunkType => 
     async (dispatch) => {
-        const data = await profileAPI.updateStatus(status);
+        const data: ResponseDataEmptyType = await profileAPI.updateStatus(status);
         if (data.resultCode === 0) {
             dispatch(setStatus(status));
         }       
@@ -148,10 +149,9 @@ type GetStateType = () => AppStateType;
 
 export const saveUserProfile = (profile: ProfileType): SaveUserProfileThunkType => 
     async (dispatch, getState: GetStateType) => {
-        const data = await profileAPI.putProfile(profile);
+        const data: ResponseDataEmptyType = await profileAPI.putProfile(profile);
         if (data.resultCode === 0) {
-            const userId = getState().auth.userId;
-            dispatch(getUserProfile(userId));
+            dispatch(getUserProfile(profile.userId));
         } else {
             dispatch(stopSubmit('ProfileForm', {_error: data.messages[0]}));
             return Promise.reject(data.messages[0]);

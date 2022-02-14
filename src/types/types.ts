@@ -1,3 +1,6 @@
+import { ResultCode, ResultCodeForCaptcha } from "../enums/resultCodes"
+
+// Components Types
 export type PostType = { 
     id: number
     message: string

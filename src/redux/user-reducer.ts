@@ -1,6 +1,7 @@
 import { Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
 import { usersAPI } from "../api/api";
+import { ResponseDataGetUsersType, ResponseDataEmptyType } from "../types/apiTypes";
 import { UserType } from "../types/types"; 
 import { AppStateType } from "./redux-store";
 
@@ -163,7 +164,7 @@ export const getUsers = (pageSize: number, currentPage: number): ThunkType =>
     async (dispatch) => 
     {
         dispatch(setIsFetching(true));
-        const data = await usersAPI.getUsers(pageSize, currentPage);
+        const data: ResponseDataGetUsersType = await usersAPI.getUsers(pageSize, currentPage);
         dispatch(setIsFetching(false));
         dispatch(setUsers(data.items));
         dispatch(setTotalUsersCount(data.totalCount));    
@@ -174,15 +175,15 @@ export const getCurrentPageUsers = (pageSize: number, pageNumber: number): Thunk
     {
         dispatch(setIsFetching(true));
         dispatch(setCurrentPage(pageNumber));
-        const data = await usersAPI.getUsers(pageSize, pageNumber);
+        const data: ResponseDataGetUsersType = await usersAPI.getUsers(pageSize, pageNumber);
         dispatch(setIsFetching(false));
         dispatch(setUsers(data.items));    
     }
 
 type ActionCreatorType = (userId: number) => UnfollowUserActionType | FollowUserActionType  
-
-const _followUnfollow = async (dispatch: DispatchType, userId: number, methodAPI: any, actionCreator: ActionCreatorType): Promise<void> => 
-{
+type followUnfollowType = (userId: number) => Promise<ResponseDataEmptyType>;
+const _followUnfollow = async (dispatch: DispatchType, userId: number, methodAPI: followUnfollowType, actionCreator: ActionCreatorType)
+: Promise<void> => {
     dispatch(toggleFollowingProgress(true, userId));
     const data = await methodAPI(userId);
     if (data.resultCode === 0) {
