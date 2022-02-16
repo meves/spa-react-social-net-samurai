@@ -1,5 +1,3 @@
-import { ResultCode, ResultCodeForCaptcha } from "../enums/resultCodes"
-
 // Components Types
 export type PostType = { 
     id: number
@@ -21,13 +19,13 @@ export type PhotosType = {
     large: string | null
 }
 export type ProfileType = {
-    userId: number
+    userId?: number
     lookingForAJob: boolean
     lookingForAJobDescription: string
     fullName: string
     aboutMe: string
     contacts: ContactsType
-    photos: PhotosType
+    photos?: PhotosType
 }
 
 export type UserType = {
@@ -38,11 +36,6 @@ export type UserType = {
     photos: PhotosType
 }
 
-export type MenuItemType = {
-    id: number
-    itemName: string
-    to: string
-}
 export type NameType = {
     id: number
     name: string

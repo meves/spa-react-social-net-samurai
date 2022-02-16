@@ -7,7 +7,7 @@ import { follow, unfollow, getUsers, getCurrentPageUsers } from "../../redux/use
 import { withConnectedAuthRedirect } from '../../hoc/withAuthRedirect';
 import { receiveCustomUsers, receivePageSize, receiveTotalUsersCount, receiveFollowingProgress,
          receiveCurrentPage, receiveIsFetching } from '../../redux/selectors/users-selectors';
-import { UserType } from '../../types/types';
+import { UserType } from '../types/types';
 import { AppStateType } from '../../redux/redux-store';
 
 type MapStatePropsType = {

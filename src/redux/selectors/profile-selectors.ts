@@ -1,4 +1,4 @@
-import { PostType, ProfileType } from "../../types/types";
+import { PostType, ProfileType } from "../../components/types/types";
 import { AppStateType } from "../redux-store";
 
 export const receivePosts = (state: AppStateType): Array<PostType> => state.profilePage.posts;

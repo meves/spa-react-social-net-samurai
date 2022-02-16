@@ -1,6 +1,5 @@
-import { DialogType, MessageType } from "../types/types";
-
-const ADD_TEXT_POST = 'my-app/dialog/ADD-TEXT-POST';
+import { DialogType, MessageType } from "../components/types/types";
+import { ActionsTypes } from "./redux-store";
 
 const initialState = {
     dialogs: [
@@ -23,9 +22,9 @@ const initialState = {
 
 export type InitialStateType = typeof initialState;
 
-const dialogReducer  = (state = initialState, action: ActionsTypes): InitialStateType => {
+const dialogReducer  = (state = initialState, action: ActionsTypes<ActionType>): InitialStateType => {
     switch (action.type) {
-        case ADD_TEXT_POST: {
+        case "my-app/dialog/ADD-TEXT-POST": {
             const id: number = state.messages ? state.messages.length : 0;  
             const message: string = action.newMessage;          
             return {
@@ -38,18 +37,12 @@ const dialogReducer  = (state = initialState, action: ActionsTypes): InitialStat
     }    
 };
 
-type ActionsTypes = AddPostActionType;
-
-// actions
-type AddPostActionType = {
-    type: typeof ADD_TEXT_POST,
-    newMessage: string
+// action
+export const actionCreators = {
+    addPost: (newMessage: string) => ({
+        type: 'my-app/dialog/ADD-TEXT-POST', newMessage
+    } as const)
 }
-
-// action-creators
-export const addPost = (newMessage: string): AddPostActionType => ({
-    type: ADD_TEXT_POST,
-    newMessage
-});
+type ActionType = typeof actionCreators;
 
 export default dialogReducer;

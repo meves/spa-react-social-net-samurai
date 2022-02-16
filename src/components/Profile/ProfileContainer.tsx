@@ -7,7 +7,7 @@ import { withConnectedAuthRedirect } from '../../hoc/withAuthRedirect';
 import { compose } from 'redux';
 import { receiveUserId } from '../../redux/selectors/auth-selectors';
 import { receiveProfile, receiveStatus } from '../../redux/selectors/profile-selectors';
-import { ProfileType } from '../../types/types';
+import { ProfileType } from '../types/types';
 import { AppStateType } from '../../redux/redux-store';
 
 type PropsType = {

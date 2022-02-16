@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import style from './Users.module.css';
 import Paginator from '../Paginator/Paginator';
 import User from './User';
-import { UserType } from '../../types/types';
+import { UserType } from '../types/types';
 
 type PropsType = {
     users: Array<UserType>

@@ -4,7 +4,7 @@ import styles from './ProfileInfo.module.css';
 import ProfileStatus from './ProfileStatus/ProfileStatusHook';
 import ProfileData from './ProfileData/ProfileData';
 import ProfileReduxForm from './ProfileForm/ProfileForm';
-import { ProfileType } from '../../../types/types';
+import { ProfileType } from '../../types/types';
 
 type PropsType = {
     profile: ProfileType | null
@@ -36,7 +36,7 @@ const ProfileInfo: FC<PropsType> = (props): JSX.Element => {
             </div>
             <ProfileStatus {...props}/>
             {editProfileMode 
-             ? <ProfileReduxForm initialValues={props.profile} onSubmit={saveProfileData}/> //contacts={props.profile.contacts} 
+             ? <ProfileReduxForm initialValues={props.profile} onSubmit={saveProfileData} contacts={props.profile.contacts} /> 
              : <ProfileData profile={props.profile} isOwner={props.isOwner} savePhoto={props.savePhoto}
                             switchOnEditMode={() => setEditProfileMode(true)}/>}
         </div>

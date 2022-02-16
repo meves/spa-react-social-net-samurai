@@ -1,7 +1,16 @@
-import React from 'react';
+import React, { FC } from 'react';
 import style from './FormsControls.module.css';
+import { WrappedFieldInputProps, WrappedFieldMetaProps } from "redux-form";
 
-export const Textarea = ({input, label, cols, rows, meta: {touched, error, warning}}) => {
+type TextareaPropsType = {
+    input: WrappedFieldInputProps
+    label: string
+    cols: number | undefined
+    rows: number | undefined
+    meta: WrappedFieldMetaProps
+}
+
+export const Textarea: FC<TextareaPropsType> = ({input, label, cols, rows, meta: {touched, error, warning}}) => {
     const hasError = touched && (error || warning);
     return (
         <div>
@@ -16,7 +25,14 @@ export const Textarea = ({input, label, cols, rows, meta: {touched, error, warni
     );
 }
 
-export const Input = ({input, type, label, meta: {touched, error, warning}}) => {
+type InputPropsType = {
+    input: WrappedFieldInputProps
+    type: string
+    label: string
+    meta: WrappedFieldMetaProps
+} 
+
+export const Input: FC<InputPropsType> = ({input, type, label, meta: {touched, error, warning}}) => {
     const hasError = touched && (error || warning);
     return (
         <div>
@@ -31,7 +47,7 @@ export const Input = ({input, type, label, meta: {touched, error, warning}}) => 
     );
 }
 
-export const Checkbox = ({input, type, label, meta: {touched, error, warning}}) => {
+export const Checkbox: FC<InputPropsType> = ({input, type, label, meta: {touched, error, warning}}) => {
     const hasError = touched && (error || warning);
     return (
         <div>

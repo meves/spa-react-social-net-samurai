@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import styles from './Profile.module.css';
 import ProfileInfo from './ProfileInfo/ProfileInfo';
 import MyPostsContainer from './MyPosts/MyPosts';
-import { ProfileType } from '../../types/types'
+import { ProfileType } from '../types/types'
 
 type PropsType = {
     isOwner: boolean

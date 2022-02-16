@@ -2,7 +2,7 @@ import React, { ChangeEvent, FC } from "react";
 import styles from './ProfileData.module.css';
 import userPhoto from './../../../../assets/images/user_icon.png';
 import Contact from "./Contact/Contact";
-import { ProfileType } from "../../../../types/types";
+import { ProfileType } from "../../../types/types";
 
 type PropsType = {
     isOwner: boolean
@@ -21,7 +21,7 @@ const ProfileData: FC<PropsType> = (props): JSX.Element => {
     return (
         <div className={styles.descriptionBlock}>         
             {props.isOwner && <div><button onClick={props.switchOnEditMode}>Edit profile</button></div>}
-            <img src={props.profile.photos.large || userPhoto} alt={props.profile.fullName} className={styles.photo}/>
+            <img src={props.profile.photos?.large || userPhoto} alt={props.profile.fullName} className={styles.photo}/>
             {props.isOwner && <div><input type="file" onChange={handleSelectedPhoto} /></div>}
             <div>
                 <b>Полное имя</b>: {props.profile.fullName}

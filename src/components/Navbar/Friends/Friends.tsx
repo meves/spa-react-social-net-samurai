@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import styles from './Friends.module.css';
 import AvatarItem from './AvatarItem/AvatarItem';
-import { NameType } from '../../../types/types';
+import { NameType } from '../../types/types';
 
 type PropsType = {
     names: Array<NameType>

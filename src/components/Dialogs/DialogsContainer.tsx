@@ -2,8 +2,8 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { AppStateType } from '../../redux/redux-store';
-import { addPost } from "../../redux/dialog-reducer";
-import { DialogType, MessageType } from '../../types/types';
+import { actionCreators } from "../../redux/dialog-reducer";
+import { DialogType, MessageType } from '../types/types';
 import { receiveDialogs, receiveMessages } from '../../redux/selectors/dialogs-selectors';
 import { withConnectedAuthRedirect } from '../../hoc/withAuthRedirect';
 import Dialogs from "./Dialogs";
@@ -36,6 +36,7 @@ const mapStateToProps = (state: AppStateType): MapStatePropsType => {
     };
 }
 
+const { addPost } = actionCreators;
 export default compose( 
     connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>( mapStateToProps, { addPost } ),
     withConnectedAuthRedirect )( DialogsContainer );

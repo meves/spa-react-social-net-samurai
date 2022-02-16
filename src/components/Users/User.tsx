@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import style from './Users.module.css';
 import userPhoto from '../../assets/images/user_icon.png';
 import { NavLink } from 'react-router-dom';
-import { UserType } from '../../types/types'
+import { UserType } from '../types/types'
 
 type PropsType = {
     key: number

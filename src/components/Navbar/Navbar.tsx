@@ -2,17 +2,16 @@ import React, { FC } from 'react';
 import styles from './Navbar.module.css';
 import Friends from './Friends/Friends';
 import Navigation from './Navigation/Navigation';
-import { MenuItemType, NameType } from '../../types/types';
+import { NameType } from '../types/types';
 
 type PropsType = {
-    menuItems: Array<MenuItemType>
     names: Array<NameType>
 }
 
 const Navbar: FC<PropsType> = (props): JSX.Element => {
     return (
             <div className={styles.navWrapper} >
-                  <Navigation menuItems={props.menuItems} />     
+                  <Navigation menuItems={["Profile", "Dialogs", "News", "Music", "Settings", "Users"]} />     
                   <Friends names={props.names}/>
             </div>
     );

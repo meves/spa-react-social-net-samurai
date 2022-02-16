@@ -1,11 +1,15 @@
-import React from 'react';
-import { reduxForm, Field } from 'redux-form';
+import React, { FC } from 'react';
+import { reduxForm, Field, InjectedFormProps } from 'redux-form';
 import { Input, Textarea, Checkbox } from '../../../common/FormsControls/FormsControls';
 import { required } from '../../../../utils/validators/validators';
 import style from './../../../common/FormsControls/FormsControls.module.css';
+import { ContactsType, ProfileType } from '../../../types/types';
 
-const ProfileForm = (props) => {
-    //const contacts = props.contacts;
+type PropsType = {
+    contacts: ContactsType
+}
+const ProfileForm: FC<InjectedFormProps<ProfileType, PropsType> & PropsType> = (props) => {
+    const contacts = props.contacts;
     return (
         <form onSubmit={props.handleSubmit}>
             <fieldset>
@@ -27,11 +31,11 @@ const ProfileForm = (props) => {
             </fieldset>
             <fieldset>
                 <legend>Contacts</legend>
-                {/* {Object.keys(contacts).map(key => {
+                {Object.keys(contacts).map(key => {
                     return (
                         <Field key={key} component={Input} type="text" label={key} name={`contacts.${key}`} />                                                
                     )
-                })} */}
+                })}
                 
             </fieldset>
             {props.error && <div className={style.formSummaryError}>{props.error}</div>}
@@ -40,4 +44,4 @@ const ProfileForm = (props) => {
     );
 }
 
-export default reduxForm({form: 'ProfileForm'})(ProfileForm);
+export default reduxForm<ProfileType, PropsType>({form: 'ProfileForm'})(ProfileForm);

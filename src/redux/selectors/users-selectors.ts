@@ -1,6 +1,6 @@
 import { createSelector } from "reselect";
 import { AppStateType } from "../redux-store";
-import { UserType } from "../../types/types";
+import { UserType } from "../../components/types/types";
 
 const receiveUsers = (state: AppStateType): Array<UserType>  => state.userPage.users;
 export const receiveCustomUsers = createSelector(receiveUsers, (users: Array<UserType>): Array<UserType> => users.map((u: UserType) => u));

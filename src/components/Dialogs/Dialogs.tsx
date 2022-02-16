@@ -2,22 +2,8 @@ import React, { FC } from 'react';
 import styles from './Dialogs.module.css';
 import DialogItem from './DialogItem/DialogItem';
 import Message from './Message/Message';
-import { reduxForm, Field } from 'redux-form'; 
-import { Textarea } from '../common/FormsControls/FormsControls';
-import { required, maxLength10 } from '../../utils/validators/validators';
-import { DialogType, MessageType } from '../../types/types';
-
-const AddMessageForm = (props: any) => {
-    return (
-        <form onSubmit={props.handleSubmit}>
-            <Field component={Textarea} name="newMessageBody" label="Enter your message"
-            validate={[required, maxLength10]} cols="30" rows="3" />
-            <button>Add Post</button>
-        </form>
-    );
-}
-
-const AddMessageReduxForm = reduxForm({ form: 'dialogAddMessageForm' })(AddMessageForm);
+import { DialogType, MessageType } from '../types/types';
+import AddMessageReduxForm, { FormData } from './DialogsForm';
 
 type DialogPropsType = {
     dialogs: Array<DialogType>
@@ -31,7 +17,7 @@ const Dialogs: FC<DialogPropsType> = (props) => {
     const messageElements: Array<JSX.Element> = props.messages.map((m: MessageType) => (
         <Message message={m.message} key={m.id}/>) );
     
-    const onAddPost = (value: any) => {
+    const onAddPost = (value: FormData) => {
         props.addPost(value.newMessageBody);
     }
     
