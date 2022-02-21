@@ -18,7 +18,7 @@ type PropsType = {
     getUserProfile: (userId: number) => void
     getStatus: (userId: number) => void
     saveUserProfile: (profile: ProfileType| null) => any
-    savePhoto: (photoFile: any) => void
+    savePhoto: (photoFile: File) => void
     updateStatus: (status: string) => void
 }
 
@@ -45,7 +45,7 @@ type MapDispatchPropsType = {
     getUserProfile: (userId: number) => void,
     getStatus: (userId: number) => void,
     updateStatus: (status: string) => void,
-    savePhoto: (photoFile: any) => void,
+    savePhoto: (photoFile: File) => void,
     saveUserProfile: (profile: ProfileType) => any
 }
 

@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import styles from './MyPosts.module.css';
 import Post from './Post/Post';
-import { actionCreators } from '../../../redux/profile-reducer';
+import { actions } from '../../../redux/profile-reducer';
 import { connect } from 'react-redux';
 import { receivePosts } from '../../../redux/selectors/profile-selectors';
 import { PostType } from '../../types/types';
@@ -44,5 +44,5 @@ const mapStateToProps = (state: AppStateType): MapStatePropsType => ({
     posts: receivePosts(state)    
 })
 
-const { addPost } = actionCreators;
+const { addPost } = actions;
 export default connect<MapStatePropsType, MapDispatchPropsType, {}, AppStateType>(mapStateToProps, { addPost })(MyPosts);

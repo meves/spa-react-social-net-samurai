@@ -1,5 +1,5 @@
 import { DialogType, MessageType } from "../components/types/types";
-import { ActionsTypes } from "./redux-store";
+import { InferActionsTypes } from "./redux-store";
 
 const initialState = {
     dialogs: [
@@ -22,7 +22,9 @@ const initialState = {
 
 export type InitialStateType = typeof initialState;
 
-const dialogReducer  = (state = initialState, action: ActionsTypes<ActionType>): InitialStateType => {
+type ActionsTypes = InferActionsTypes<typeof actions>;
+
+const dialogReducer  = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
         case "my-app/dialog/ADD-TEXT-POST": {
             const id: number = state.messages ? state.messages.length : 0;  
@@ -38,11 +40,10 @@ const dialogReducer  = (state = initialState, action: ActionsTypes<ActionType>):
 };
 
 // action
-export const actionCreators = {
+export const actions = {
     addPost: (newMessage: string) => ({
         type: 'my-app/dialog/ADD-TEXT-POST', newMessage
     } as const)
 }
-type ActionType = typeof actionCreators;
 
 export default dialogReducer;

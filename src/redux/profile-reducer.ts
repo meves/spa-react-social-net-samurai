@@ -1,12 +1,10 @@
 import { FormAction, stopSubmit } from "redux-form";
-import { ThunkAction } from "redux-thunk";
-import { profileAPI } from "../api/api";
-import { ProfilePhotoDataType, ResponseDataType } from "../api/apiTypes";
+import { ResultCode } from "../api/enums";
+import { profileAPI } from "../api/profile-api";
 import { PostType, PhotosType, ProfileType } from "../components/types/types";
-import { AppStateType } from "./redux-store";
-import { ActionsTypes } from "./redux-store";
+import { BaseThunkType, InferActionsTypes } from "./redux-store";
 
-const initialState = {
+export const initialState = {
     posts: [
         {id: 1, message: "Hi, how are you?", likesCount: 10},
         {id: 2, message: "It's myfirst post", likesCount: 5}
@@ -16,7 +14,9 @@ const initialState = {
 };
 type InitialStateType = typeof initialState;
 
-const profileReducer = (state=initialState, action: ActionsTypes<ActionType>): InitialStateType => {
+type ActionsTypes = InferActionsTypes<typeof actions>;
+
+const profileReducer = (state=initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
         case "my-app/profile/ADD-POST": {
             const message = action.newPost;
@@ -54,7 +54,7 @@ const profileReducer = (state=initialState, action: ActionsTypes<ActionType>): I
 };
 
 // action creators
-export const actionCreators = {
+export const actions = {
     addPost: (newPost: string) => ({ 
         type: 'my-app/profile/ADD-POST', newPost 
     } as const ),
@@ -71,48 +71,49 @@ export const actionCreators = {
         type: 'my-app/profile/SAVE_PROFILE_PHOTO', photos        
     } as const)
 }
-type ActionType = typeof actionCreators;
 
 // thunk creators
-type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes<ActionType>>;
+type ThunkType = BaseThunkType<ActionsTypes | FormAction, Promise<void | string>>;
 
 export const getUserProfile = (userId: number): ThunkType => 
     async (dispatch) => {
         const data = await profileAPI.getUserProfile(userId)
-        dispatch(actionCreators.setUserProfile(data));
+        dispatch(actions.setUserProfile(data));
     }
 
 
 export const getStatus = (userId: number): ThunkType => 
     async (dispatch) => {
         const status: string = await profileAPI.getStatus(userId);
-        dispatch(actionCreators.setStatus(status));        
+        dispatch(actions.setStatus(status));        
     }
 
 
 export const updateStatus = (status: string): ThunkType => 
     async (dispatch) => {
-        const data: ResponseDataType<{}> = await profileAPI.updateStatus(status);
-        if (data.resultCode === 0) {
-            dispatch(actionCreators.setStatus(status));
+        const data = await profileAPI.updateStatus(status);
+        if (data.resultCode === ResultCode.Success) {
+            dispatch(actions.setStatus(status));
         }       
     }
 
-export const savePhoto = (photoFile: any): ThunkType => 
+export const savePhoto = (photoFile: File): ThunkType => 
     async (dispatch) => {
-        const data: ResponseDataType<ProfilePhotoDataType> = await profileAPI.putPhoto(photoFile);
-        if (data.resultCode === 0) {
-            dispatch(actionCreators.setProfilePhoto(data.data.photos));
+        const data = await profileAPI.putPhoto(photoFile);
+        if (data.resultCode === ResultCode.Success) {
+            dispatch(actions.setProfilePhoto(data.data.photos));
         }
     }
 
-type SaveUserProfileThunkType = ThunkAction<Promise<void|string>, AppStateType, unknown, ActionsTypes<ActionType> | FormAction>;    
-
-export const saveUserProfile = (profile: ProfileType): SaveUserProfileThunkType => 
+export const saveUserProfile = (profile: ProfileType): ThunkType => 
     async (dispatch) => {
-        const data: ResponseDataType<{}> = await profileAPI.putProfile(profile);
-        if (data.resultCode === 0) {
-            dispatch(getUserProfile(Number(profile.userId)));            
+        const data = await profileAPI.putProfile(profile);
+        if (data.resultCode === ResultCode.Success) {
+            if (profile.userId) {
+                dispatch(getUserProfile(profile.userId));            
+            } else {
+                throw new Error(`UserId can't be undefined`);
+            }
         } else {
             dispatch(stopSubmit('ProfileForm', {_error: data.messages[0]}));
             return Promise.reject(data.messages[0]);

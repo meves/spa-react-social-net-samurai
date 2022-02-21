@@ -1,11 +1,9 @@
-import { authAPI } from '../api/api';
-import { securityAPI } from '../api/api';
+import { authAPI } from '../api/auth-api';
+import { securityAPI } from '../api/security-api';
 import { FormAction, stopSubmit } from 'redux-form';
-import { AppStateType } from './redux-store';
-import { ThunkAction } from 'redux-thunk';
-import { ResultCode, ResultCodeForCaptcha } from '../enums/resultCodes';
-import { AuthMeDataType, LoginDataType, ResponseDataGetCaptchaUrl, ResponseDataType } from '../api/apiTypes';
-import { ActionsTypes } from './redux-store';
+import { BaseThunkType } from './redux-store';
+import { ResultCode, ResultCodeForCaptcha } from '../api/enums';
+import { InferActionsTypes } from './redux-store';
 
 const initialState = {
     userId: null as number | null,
@@ -14,10 +12,11 @@ const initialState = {
     isAuth: false,
     captchaUrl: null as string | null        
 };
-
 export type InitialStateType = typeof initialState;
 
-const authReducer = (state=initialState, action: ActionsTypes<ActionType>): InitialStateType => {
+type ActionsTypes = InferActionsTypes<typeof actions>;
+
+const authReducer = (state=initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
         case 'my-app/auth/SET_AUTH_USER_DATA':
             return {
@@ -34,8 +33,7 @@ const authReducer = (state=initialState, action: ActionsTypes<ActionType>): Init
     }    
 }
 
-// action
-const actionCreators = {
+const actions = {
     setAuthUserData (userId: number|null, email: string|null, login: string|null, isAuth: boolean) {
         return { type: 'my-app/auth/SET_AUTH_USER_DATA', payload: { userId, email, login, isAuth } } as const
     }, 
@@ -43,26 +41,21 @@ const actionCreators = {
         return { type: 'my-app/auth/SET_CAPTCHA_URL', captchaUrl } as const
     }
 };
-type ActionType = typeof actionCreators;
 
+type ThunkType = BaseThunkType<ActionsTypes | FormAction, Promise<void | ActionsTypes>>;
 
-// thunk creators
-type GetAuthmeThunkType = ThunkAction<Promise<void | ActionsTypes<ActionType>>, AppStateType, unknown, ActionsTypes<ActionType>>;
-
-export const getAuthMe = (): GetAuthmeThunkType => 
+export const getAuthMe = (): ThunkType => 
     async (dispatch) => {
-        const data: ResponseDataType<AuthMeDataType> = await authAPI.authMe();
+        const data = await authAPI.authMe();
         if (data.resultCode === ResultCode.Success) {
             let {id, email, login} = data.data;
-            return dispatch(actionCreators.setAuthUserData(id, email, login, true));                    
+            return dispatch(actions.setAuthUserData(id, email, login, true));                    
         }    
     }
 
-type LoginUserThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes<ActionType> | FormAction>;
-
-export const loginUser = (email: string, password: string, rememberMe: boolean, captcha: boolean|undefined): LoginUserThunkType => 
+export const loginUser = (email: string, password: string, rememberMe: boolean, captcha: boolean|undefined): ThunkType => 
     async (dispatch) => {
-        const data: ResponseDataType<LoginDataType> = await authAPI.login(email, password, rememberMe, captcha);
+        const data = await authAPI.login(email, password, rememberMe, captcha);
         if (data.resultCode === ResultCode.Success) {
             dispatch(getAuthMe());
         } else {
@@ -74,20 +67,18 @@ export const loginUser = (email: string, password: string, rememberMe: boolean, 
         }       
     }
 
-type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes<ActionType>>;
-
 export const getCaptchaUrl = (): ThunkType => 
     async (dispatch) => {
-        const data: ResponseDataGetCaptchaUrl = await securityAPI.getCaptchaUrl();
+        const data = await securityAPI.getCaptchaUrl();
         const captchaUrl = data.url;
-        dispatch(actionCreators.setCaptchaUrl(captchaUrl));
+        dispatch(actions.setCaptchaUrl(captchaUrl));
     }
 
 export const logoutUser = (): ThunkType => 
     async (dispatch) => {
-        const data: ResponseDataType<{}> = await authAPI.logout();
-        if (data.resultCode === 0) {
-            dispatch(actionCreators.setAuthUserData(null, null, null, false));
+        const data = await authAPI.logout();
+        if (data.resultCode === ResultCode.Success) {
+            dispatch(actions.setAuthUserData(null, null, null, false));
         }        
     };
 

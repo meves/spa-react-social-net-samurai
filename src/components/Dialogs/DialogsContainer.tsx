@@ -2,7 +2,7 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { AppStateType } from '../../redux/redux-store';
-import { actionCreators } from "../../redux/dialog-reducer";
+import { actions } from "../../redux/dialog-reducer";
 import { DialogType, MessageType } from '../types/types';
 import { receiveDialogs, receiveMessages } from '../../redux/selectors/dialogs-selectors';
 import { withConnectedAuthRedirect } from '../../hoc/withAuthRedirect';
@@ -36,7 +36,7 @@ const mapStateToProps = (state: AppStateType): MapStatePropsType => {
     };
 }
 
-const { addPost } = actionCreators;
+const { addPost } = actions;
 export default compose( 
     connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>( mapStateToProps, { addPost } ),
     withConnectedAuthRedirect )( DialogsContainer );

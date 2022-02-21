@@ -12,7 +12,7 @@ type PropsType = {
     userId: number
     status: string
     saveUserProfile: (profile: ProfileType| null) => any
-    savePhoto: (photoFile: any) => void
+    savePhoto: (photoFile: File) => void
     updateStatus: (status: string) => void
 }
 
