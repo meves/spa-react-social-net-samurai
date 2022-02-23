@@ -26,9 +26,7 @@ type MapDispatchPropsType = {
     getCurrentPageUsers: (pageSize: number, pageNumber: number) => void
 }
 
-type OwnPropsType = {}
-
-type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
+type PropsType = MapStatePropsType & MapDispatchPropsType;
 
 class UsersContainer extends React.Component<PropsType> {    
     componentDidMount() {
@@ -65,6 +63,6 @@ const mapStateToProps = (state: AppStateType): MapStatePropsType => {
     };
 }
 
-export default compose(
-    connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(mapStateToProps, {follow, unfollow, getUsers, getCurrentPageUsers}),
+export default compose<React.ComponentType>(
+    connect<MapStatePropsType, MapDispatchPropsType, {}, AppStateType>(mapStateToProps, {follow, unfollow, getUsers, getCurrentPageUsers}),
     withConnectedAuthRedirect)(UsersContainer);

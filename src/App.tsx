@@ -10,11 +10,11 @@ import './css/App.css';
 import HeaderContainer from './components/Header/HeaderContainer';
 import NavbarContainer from './components/Navbar/NavbarContainer';
 import Preloader from './components/common/Preloader/Preloader';
-const DialogsContainer = React.lazy((): any => import('./components/Dialogs/DialogsContainer'));
-const ProfileContainer = React.lazy((): any => import('./components/Profile/ProfileContainer'));
+const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));
+const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'));
 const News = React.lazy(() => import('./components/News/News')); 
 const Music = React.lazy(() => import('./components/Music/Music')); 
-const UsersContainer = React.lazy((): any => import('./components/Users/UsersContainer')); 
+const UsersContainer = React.lazy(() => import('./components/Users/UsersContainer')); 
 const Settings = React.lazy(() => import('./components/Settings/Settings')); 
 const Login = React.lazy(() => import('./components/Login/Login'));
 
@@ -24,17 +24,15 @@ type PropsType = {
 }
 
 class App extends React.Component<PropsType> {
-  catchAllUnhandledErrors = (reason: any, promise: any): any => {
+  catchAllUnhandledErrors = (event: PromiseRejectionEvent) => {
     // set globalError in app-reducer through thunk-creator and action-creator 
     // then show the error in ErrorComponent
   }
   componentDidMount() {
     this.props.initializeApp();
-    // @ts-ignore        
     window.addEventListener('unhandledrejection', this.catchAllUnhandledErrors);
   }
   componentWillUnmount() {
-    // @ts-ignore
     window.removeEventListener('unhandledrejection', this.catchAllUnhandledErrors);
   }
   render() {
@@ -71,13 +69,13 @@ type MapDispatchPropsType = {
   initializeApp: () => void
 }
 
-const mapStateToprops = (state: AppStateType): MapStatePropsType => ({
+const mapStateToProps = (state: AppStateType): MapStatePropsType => ({
   initialized: state.app.initialized
 });
 
-const AppContainer: any = compose(
+const AppContainer = compose<React.ComponentType>(
   withRouter,
-  connect<MapStatePropsType, MapDispatchPropsType, {}, AppStateType>(mapStateToprops, { initializeApp })
+  connect<MapStatePropsType, MapDispatchPropsType, {}, AppStateType>(mapStateToProps, { initializeApp })
     )(App);
 
 const AppMain: FC = (props): JSX.Element => {

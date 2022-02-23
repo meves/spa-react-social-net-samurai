@@ -27,7 +27,6 @@ export type ProfileType = {
     contacts: ContactsType
     photos?: PhotosType
 }
-
 export type UserType = {
     name: string
     id: number
@@ -35,12 +34,10 @@ export type UserType = {
     followed: boolean
     photos: PhotosType
 }
-
 export type NameType = {
     id: number
     name: string
 }
-
 export type DialogType = { 
     id: number
     name: string

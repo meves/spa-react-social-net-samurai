@@ -55,7 +55,7 @@ const mapStateToProps = (state: AppStateType): MapStatePropsType => ({
     userId: receiveUserId(state)   
 });
 
-export default compose(
+export default compose<React.ComponentType>(
     connect<MapStatePropsType, MapDispatchPropsType, {} , AppStateType>(mapStateToProps, 
         { getUserProfile, getStatus, updateStatus, savePhoto, saveUserProfile }),
     withRouter,

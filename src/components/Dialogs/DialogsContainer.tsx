@@ -37,6 +37,6 @@ const mapStateToProps = (state: AppStateType): MapStatePropsType => {
 }
 
 const { addPost } = actions;
-export default compose( 
+export default compose<React.ComponentType>( 
     connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>( mapStateToProps, { addPost } ),
     withConnectedAuthRedirect )( DialogsContainer );
