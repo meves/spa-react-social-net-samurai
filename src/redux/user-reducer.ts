@@ -5,7 +5,7 @@ import { BaseThunkType, InferActionsTypes } from "./redux-store";
 import { ResultCode } from "../api/enums";
 import { APIResponseType } from "../api/types";
 
-const initialState = {
+export const initialState = {
     users: [] as Array<UserType>,
     pageSize: 10,   
     totalUsersCount: 0,
@@ -13,7 +13,7 @@ const initialState = {
     isFetching: false,
     followingProgress: [] as Array<number>
 }
-type InitialStateType = typeof initialState;
+export type InitialStateType = typeof initialState;
 
 type ActionsTypes = InferActionsTypes<typeof actions>;
 
@@ -78,7 +78,7 @@ const userReducer = (state=initialState, action: ActionsTypes): InitialStateType
     }
 }
 
-const actions = {
+export const actions = {
     followUser: (userId: number) => ({
         type: 'my-app/user/FOLLOW', userId
     } as const),
@@ -134,22 +134,23 @@ const _followUnfollow = async (dispatch: DispatchType, userId: number, methodAPI
 : Promise<void> => {
     dispatch(actions.toggleFollowingProgress(true, userId));
     const data = await methodAPI(userId);
-    if (data.resultCode === ResultCode.Error) {
+    if (data.resultCode === ResultCode.Success) {
         dispatch(actionCreator(userId));
     }
     dispatch(actions.toggleFollowingProgress(false, userId));    
 }
 
-export const unfollow = (userId: number): ThunkType => 
-    async (dispatch) => 
-    {
-        _followUnfollow(dispatch, userId, usersAPI.unfollowUser.bind(usersAPI), actions.unfollowUser);       
-    }
-
 export const follow = (userId: number): ThunkType => 
     async (dispatch) => 
     {
-        _followUnfollow(dispatch, userId, usersAPI.followUser.bind(usersAPI), actions.followUser);      
+        await _followUnfollow(dispatch, userId, usersAPI.followUser.bind(usersAPI), actions.followUser);      
     }
+
+export const unfollow = (userId: number): ThunkType => 
+    async (dispatch) => 
+    {
+        await _followUnfollow(dispatch, userId, usersAPI.unfollowUser.bind(usersAPI), actions.unfollowUser);       
+    }
+
 
 export default userReducer;
