@@ -15,7 +15,11 @@ beforeEach(() => {
         totalUsersCount: 0,
         currentPage: 1,
         isFetching: false,
-        followingProgress: []
+        followingProgress: [],
+        filter: {
+            term: "",
+            friend: null
+        }
     }
 });
 

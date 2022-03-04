@@ -3,8 +3,9 @@ import { instance } from "./api";
 import { GetItemsType, APIResponseType } from "./types";
 
 export const usersAPI = {
-    async getUsers (pageSize=10, currentPage=1) {
-        const response = await instance.get<GetItemsType<UserType>>(`users?count=${pageSize}&page=${currentPage}`);
+    async getUsers (pageSize=10, currentPage=1, term: string="", friend: null | boolean = null) {
+        const response = await instance.get<GetItemsType<UserType>>(
+            `users?count=${pageSize}&page=${currentPage}&term=${term}` + (friend === null ? "" : `&friend=${friend}`));
         return response.data;
     },
     async unfollowUser (userId: number) {
