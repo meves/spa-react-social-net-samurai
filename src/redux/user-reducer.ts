@@ -119,12 +119,11 @@ export const actions = {
 type DispatchType = Dispatch<ActionsTypes>;
 type ThunkType = BaseThunkType<ActionsTypes>;
 
-export const getUsers = (pageSize: number, currentPage: number, filter: FilterType): ThunkType => 
+export const getUsers = (pageSize: number, currentPage: number): ThunkType => 
     async (dispatch) => 
     {
         dispatch(actions.setIsFetching(true));
-        dispatch(actions.setFilter(filter));
-        const data = await usersAPI.getUsers(pageSize, currentPage, filter.term, filter.friend);
+        const data = await usersAPI.getUsers(pageSize, currentPage);
         dispatch(actions.setIsFetching(false));
         dispatch(actions.setUsers(data.items));
         dispatch(actions.setTotalUsersCount(data.totalCount));    

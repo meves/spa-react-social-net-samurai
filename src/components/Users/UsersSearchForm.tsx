@@ -1,5 +1,5 @@
 import React from 'react';
-import { Field, Form, Formik, FormikHelpers } from 'formik';
+import { Field, Form, Formik } from 'formik';
 import { FilterType } from '../../redux/user-reducer';
 
 const usersSearchFormValidate = (values: any) => {
@@ -15,13 +15,12 @@ type ValuesType = {
     friend: string
 }
 const UsersSearchForm: React.FC<PropsType> = React.memo((props) => {
-    const submit = (values: ValuesType , { setSubmitting }: {setSubmitting: (isSubmitting: boolean) => void}) => {        
-        let friend: true | false | null = values.friend === "null" ? null 
-                                        : values.friend === "true" ? true 
-                                        :                            false;
+    const submit = (values: ValuesType, { setSubmitting }: {setSubmitting: (isSubmitting: boolean) => void}) => {        
         const filter: FilterType = {
             term: values.term,
-            friend: friend
+            friend: values.friend === "null" ? null 
+            : values.friend === "true" ? true 
+            :                            false
         }
         props.onFilterChanged(filter);     
         setSubmitting(false);                
