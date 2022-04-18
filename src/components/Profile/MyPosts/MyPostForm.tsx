@@ -3,7 +3,7 @@ import { reduxForm, Field, InjectedFormProps } from 'redux-form';
 import { required, maxLength10 } from '../../../utils/validators/validators';
 import { Textarea } from '../../common/FormsControls/FormsControls';
 
-type FormData = {
+export type FormData = {
     newPostBody: string
 }
 

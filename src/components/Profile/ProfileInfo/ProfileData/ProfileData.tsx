@@ -3,19 +3,21 @@ import styles from './ProfileData.module.css';
 import userPhoto from './../../../../assets/images/user_icon.png';
 import Contact from "./Contact/Contact";
 import { ProfileType } from "../../../types/types";
+import { useDispatch } from "react-redux";
+import { savePhoto } from "../../../../redux/profile-reducer";
 
 type PropsType = {
     isOwner: boolean
     profile: ProfileType
-    savePhoto: (photoFile: File) => void
     switchOnEditMode: () => void
 }
 
-const ProfileData: FC<PropsType> = (props): JSX.Element => {    
+const ProfileData: FC<PropsType> = (props): JSX.Element => {   
+    const dispatch = useDispatch(); 
     const handleSelectedPhoto = (event: ChangeEvent<HTMLInputElement>) => {
         const files: FileList | null = event.target.files;
         if (files?.length === 1) {
-            props.savePhoto(files[0]);
+            dispatch(savePhoto(files[0]));
         }
     }
     return (

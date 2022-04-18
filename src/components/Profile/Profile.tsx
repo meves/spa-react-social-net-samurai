@@ -1,26 +1,41 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import styles from './Profile.module.css';
 import ProfileInfo from './ProfileInfo/ProfileInfo';
-import MyPostsContainer from './MyPosts/MyPosts';
-import { ProfileType } from '../types/types'
+import { MyPosts } from './MyPosts/MyPosts';
+import { useDispatch, useSelector } from 'react-redux';
+import { receiveUserId } from '../../redux/selectors/auth-selectors';
+import { getUserProfile, getStatus } from '../../redux/profile-reducer'; 
+import { compose } from 'redux';
+import { withRouter } from 'react-router-dom';
+import { withConnectedAuthRedirect } from '../../hoc/withAuthRedirect';
 
 type PropsType = {
     isOwner: boolean
-    profile: ProfileType | null
-    userId: number
-    status: string
-    saveUserProfile: (profile: ProfileType| null) => any
-    savePhoto: (photoFile: any) => void
-    updateStatus: (status: string) => void
+    match: any
 }
 
-const Profile: FC<PropsType> = (props): JSX.Element => {
+const ProfilePage: FC<PropsType> = (props) => {
+    const userId = useSelector(receiveUserId);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        let id: number = props.match.params.userId || userId;
+        dispatch(getUserProfile(id));
+        dispatch(getStatus(id));
+    }, [props.match.params.userId]);
+
     return (
         <div className={styles.content}>
-            <ProfileInfo {...props}/>
-            <MyPostsContainer />
+            <ProfileInfo 
+                         isOwner={!props.match.params.userId}    
+                         userId={userId}
+                         />
+            <MyPosts />
         </div>
     );
 };
 
-export default Profile;
+export const Profile = compose(
+    withConnectedAuthRedirect,
+    withRouter )( ProfilePage ) as React.ComponentType<unknown>;
+

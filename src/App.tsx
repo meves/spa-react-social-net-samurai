@@ -7,16 +7,17 @@ import { initializeApp } from './redux/app-reducer';
 import { withSuspense } from './hoc/withSuspence';
 import './css/App.css';
 
-import HeaderContainer from './components/Header/HeaderContainer';
-import NavbarContainer from './components/Navbar/NavbarContainer';
+import { HeaderPage } from './components/Header/Header';
+import { NavbarPage } from './components/Navbar/Navbar';
+import { Profile } from './components/Profile/Profile';
+import { LoginPage } from './components/Login/Login';
 import Preloader from './components/common/Preloader/Preloader';
-const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));
-const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'));
+
+const DialogsPage = React.lazy(() => import('./components/Dialogs/Dialogs'));
 const News = React.lazy(() => import('./components/News/News')); 
 const Music = React.lazy(() => import('./components/Music/Music')); 
-const UsersContainer = React.lazy(() => import('./components/Users/UsersContainer')); 
+const UsersPage = React.lazy(() => import('./components/Users/UsersContainer')); 
 const Settings = React.lazy(() => import('./components/Settings/Settings')); 
-const Login = React.lazy(() => import('./components/Login/Login'));
 
 type PropsType = {
   initialized: boolean
@@ -41,18 +42,18 @@ class App extends React.Component<PropsType> {
     }
     return (    
         <div className="app-wrapper">
-          <HeaderContainer />
-          <NavbarContainer  />
+          <HeaderPage />
+          <NavbarPage />
           <div className="app-wrapper-content">
             <Switch>
               <Route exact path="/" render={() => <Redirect to="/profile" /> }/>
-              <Route path="/profile/:userId?" render={() => withSuspense(ProfileContainer) }/>
-              <Route path="/dialogs" render={() => withSuspense(DialogsContainer) } />
-              <Route path="/users" render={() => withSuspense(UsersContainer)}/>
+              <Route path="/profile/:userId?" render={() => <Profile/>}/>
+              <Route path="/dialogs" render={() => withSuspense(DialogsPage) } />
+              <Route path="/users" render={() => withSuspense(UsersPage)}/>
               <Route path="/news" render={() => withSuspense(News)} />
               <Route path="/music" render={() => withSuspense(Music) } />
               <Route path="/settings" render={() => withSuspense(Settings)} />
-              <Route path="/login" render={() => withSuspense(Login)} />   
+              <Route path="/login" render={() => withSuspense(LoginPage)} />   
               <Route path="*" render={() => <div>404 NOT FOUND</div>}/>
             </Switch>         
           </div>        

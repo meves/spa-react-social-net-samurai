@@ -4,21 +4,24 @@ import DialogItem from './DialogItem/DialogItem';
 import Message from './Message/Message';
 import { DialogType, MessageType } from '../types/types';
 import AddMessageReduxForm, { FormData } from './DialogsForm';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppStateType } from '../../redux/redux-store';
+import { actions } from '../../redux/dialog-reducer';
+import { withConnectedAuthRedirect } from '../../hoc/withAuthRedirect';
 
-type DialogPropsType = {
-    dialogs: Array<DialogType>
-    messages: Array<MessageType>
-    addPost: (newMessageBody: string) => void
-}
-
-const Dialogs: FC<DialogPropsType> = (props) => {
-    const dialogElements: Array<JSX.Element> = props.dialogs.map((d: DialogType) => (
+const Dialogs: FC = () => {
+    const dialogs = useSelector((state: AppStateType) => state.dialogPage.dialogs);
+    const dialogElements: Array<JSX.Element> = dialogs.map((d: DialogType) => (
         <DialogItem key={d.id} id={d.id} name={d.name} />) );
-    const messageElements: Array<JSX.Element> = props.messages.map((m: MessageType) => (
+        
+    const messages = useSelector((state: AppStateType) => state.dialogPage.messages);
+    const messageElements: Array<JSX.Element> = messages.map((m: MessageType) => (
         <Message message={m.message} key={m.id}/>) );
-    
+            
+    const { addPost } = actions;
+    const dispatch = useDispatch();
     const onAddPost = (value: FormData) => {
-        props.addPost(value.newMessageBody);
+        dispatch(addPost(value.newMessageBody));
     }
     
     return (
@@ -34,4 +37,4 @@ const Dialogs: FC<DialogPropsType> = (props) => {
     );
 }
 
-export default Dialogs;
+export default withConnectedAuthRedirect(Dialogs);

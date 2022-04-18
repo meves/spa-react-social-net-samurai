@@ -7,11 +7,13 @@ import { UserType } from '../types/types'
 export type UserPropsType = {
     user: UserType 
     followingProgress: Array<number>
-    follow: (userId: number) => void
-    unfollow: (userId: number) => void
+    followUser: (userId: number) => void
+    unfollowUser: (userId: number) => void
 }
 
-const User: FC<UserPropsType> = ({user, ...props}) => {
+export const User: FC<UserPropsType> = (props) => {
+    const user = props.user;
+    
     return (
         <div className={style.user}>
                 <div className={style.avatar}>
@@ -25,9 +27,9 @@ const User: FC<UserPropsType> = ({user, ...props}) => {
                     <div>
                         {user.followed ? 
                             <button disabled={props.followingProgress.some(id => id === user.id)} 
-                                onClick={() => {props.unfollow(user.id);}}>Unfollowed</button> : 
+                                onClick={() => {props.unfollowUser(user.id);}}>Unfollowed</button> : 
                             <button disabled={props.followingProgress.some(id => id === user.id)} 
-                                onClick={() => { props.follow(user.id);}}>Followed</button>} 
+                                onClick={() => {props.followUser(user.id);}}>Followed</button>} 
                     </div>
                 </div>
                 <div className={style.userInfo}>
@@ -43,5 +45,3 @@ const User: FC<UserPropsType> = ({user, ...props}) => {
             </div>
     );
 }
-
-export default User;

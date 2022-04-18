@@ -5,42 +5,55 @@ import ProfileStatus from './ProfileStatus/ProfileStatusHook';
 import ProfileData from './ProfileData/ProfileData';
 import ProfileReduxForm from './ProfileForm/ProfileForm';
 import { ProfileType } from '../../types/types';
+import { useDispatch, useSelector } from 'react-redux';
+import { receiveProfile } from '../../../redux/selectors/profile-selectors';
+import { saveUserProfile } from '../../../redux/profile-reducer';
 
 type PropsType = {
-    profile: ProfileType | null
     isOwner: boolean
-    userId: number
-    status: string
-    saveUserProfile: (profile: ProfileType| null) => any
-    savePhoto: (photoFile: File) => void
-    updateStatus: (status: string) => void
+    userId: number | null
 }
 
-const ProfileInfo: FC<PropsType> = (props): JSX.Element => {
+const ProfileInfo: FC<PropsType> = (props) => {
+    const profile = useSelector(receiveProfile);
+
+    const dispatch = useDispatch();
+    
     const [editProfileMode, setEditProfileMode] = useState(false);
-    if (!props.profile) {
+
+    
+    const saveProfileData: any = async (profile: ProfileType) => {
+        profile.userId = Number(props.userId);
+        try {
+            await dispatch(saveUserProfile(profile));
+            setEditProfileMode(false);
+        } catch(error) {
+            return error;        
+        }
+    }
+    if (!profile) {
         return (
             <Preloader />
-        );
-    }
-    const saveProfileData: any = async (profile: ProfileType) => {
-        profile.userId = props.userId;
-        props.saveUserProfile(profile).then(() => {
-            setEditProfileMode(false);
-        }).catch((error: any) => error);        
-    }
-    return (
-        <div>
-            <div className={styles.image}>
-                {<img src="https://tinyurl.com/2ejwewjn" alt="Beach" />}
+            );
+    } else {
+        return (
+            <div>
+                <div className={styles.image}>
+                    {<img src="https://tinyurl.com/2ejwewjn" alt="Beach" />}
+                </div>
+                <ProfileStatus />
+                {editProfileMode 
+                 ? <ProfileReduxForm 
+                                initialValues={profile}
+                                onSubmit={saveProfileData}
+                                contacts={profile.contacts} /> 
+                 : <ProfileData 
+                                isOwner={props.isOwner}
+                                profile={profile}
+                                switchOnEditMode={() => setEditProfileMode(true)}/>}
             </div>
-            <ProfileStatus {...props}/>
-            {editProfileMode 
-             ? <ProfileReduxForm initialValues={props.profile} onSubmit={saveProfileData} contacts={props.profile.contacts} /> 
-             : <ProfileData profile={props.profile} isOwner={props.isOwner} savePhoto={props.savePhoto}
-                            switchOnEditMode={() => setEditProfileMode(true)}/>}
-        </div>
-    );
+        );        
+    }
 };
 
 export default ProfileInfo;

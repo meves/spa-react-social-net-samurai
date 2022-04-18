@@ -4,7 +4,6 @@ import styles from './../Friends.module.css';
 type PropsType = {
     name: string
 }
-
 const AvatarItem: FC<PropsType> = (props): JSX.Element => {
     return (
         <div className={styles.avatarItem}>

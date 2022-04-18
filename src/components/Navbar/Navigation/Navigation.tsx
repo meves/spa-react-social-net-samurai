@@ -2,22 +2,19 @@ import React, { FC } from 'react';
 import styles from './../Navbar.module.css';
 import { NavLink } from 'react-router-dom';
 
-type PropsType = {
-  menuItems: Array<string>
-}
-
-const Navigation: FC<PropsType> = (props): JSX.Element => {
-    const navLinks = props.menuItems.map((entry: string): JSX.Element => (
-        <div className={styles.item} key={entry}>
-          <NavLink to={`/${entry.toLowerCase()}`} activeClassName={styles.active}>{entry}</NavLink>
-        </div>
-      )
-    );
-    return (
-        <nav className={styles.nav} >
-            { navLinks }
-        </nav>
-    );
+const Navigation: FC = () => {
+  const menuItems = ["Profile", "Dialogs", "News", "Music", "Settings", "Users"];
+  const navLinks = menuItems.map((entry: string, i: number) => (
+      <div className={styles.item} key={i}>
+        <NavLink to={`/${entry.toLowerCase()}`} activeClassName={styles.active}>{entry}</NavLink>
+      </div>
+    )
+  );
+  return (
+      <nav className={styles.nav} >
+          { navLinks }
+      </nav>
+  );
 };
 
 export default Navigation;

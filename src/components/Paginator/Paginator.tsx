@@ -6,8 +6,8 @@ export type PaginatorPropsType = {
   totalItemsCount: number
   pageSize: number
   currentPage: number
-  onPageChanged: (pageNumber: number) => void
   portionSize?: number
+  onPageChanged: (pageNumber: number) => void
 }
 
 const Paginator: FC<PaginatorPropsType> = ({totalItemsCount, pageSize, currentPage, onPageChanged, portionSize=10}) => {
